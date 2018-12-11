@@ -1,6 +1,7 @@
 vendor/
 node_modules/
 npm-debug.log
+yarn-error.log
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -9,6 +10,11 @@ app/storage/
 # Laravel 5 & Lumen specific
 public/storage
 public/hot
+public/css
+public/img
+public/js
+.idea
+laradock
 storage/*.key
 .env.*.php
 .env.php
