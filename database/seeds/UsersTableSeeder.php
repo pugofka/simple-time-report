@@ -21,16 +21,16 @@ class UsersTableSeeder extends Seeder
             'password' => \Illuminate\Support\Facades\Hash::make('admin'),
         ]);
 
-        $userClient = \App\User::create([
+        $userUser = \App\User::create([
             'name' => 'Karmov',
             'email' => 'Karmov@pugofka.com',
             'password' => \Illuminate\Support\Facades\Hash::make('swqqpl22'),
         ]);
 
         $roleAdmin = \Spatie\Permission\Models\Role::create(['name' => RoleConst::ROLE_ADMIN]);
-        $roleClient = \Spatie\Permission\Models\Role::create(['name' => RoleConst::ROLE_CLIENT]);
+        $roleUser = \Spatie\Permission\Models\Role::create(['name' => RoleConst::ROLE_USER]);
 
         $userAdmin->assignRole(RoleConst::ROLE_ADMIN);
-        $userClient->assignRole(RoleConst::ROLE_CLIENT);
+        $userUser->assignRole(RoleConst::ROLE_USER);
     }
 }

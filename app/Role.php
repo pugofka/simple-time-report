@@ -12,5 +12,5 @@ namespace App;
 class Role extends  \Spatie\Permission\Models\Role
 {
     const ROLE_ADMIN = 'admin';
-    const ROLE_CLIENT = 'client';
+    const ROLE_USER = 'user';
 }

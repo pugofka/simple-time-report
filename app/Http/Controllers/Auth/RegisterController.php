@@ -79,8 +79,12 @@ class RegisterController extends Controller
         ]);
 
 
+        if ($data['role'] === "user") {
+            $userClient->assignRole(RoleConst::ROLE_USER);
+        } else {
+            $userClient->assignRole(RoleConst::ROLE_ADMIN);
+        }
 
-        $userClient->assignRole(RoleConst::ROLE_CLIENT);
 
         return $userClient;
     }
