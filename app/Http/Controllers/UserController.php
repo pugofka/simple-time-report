@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $users = User::get();
 
-        for ($i=0; $i < count($users); $i++) {    // подсчет часов этапов
+        for ($i=0; $i < count($users); $i++) {
             $users[$i]->role = preg_replace('/[^a-z_]/i', '', $users[$i]->getRoleNames());
         }
 
@@ -45,6 +45,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request['name'],
             'lastname' => $request['lastname'],
+            'plane_hours' => $request['plane_hours'],
+            'week_hours' => $request['week_hours'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
@@ -101,6 +103,8 @@ class UserController extends Controller
         $user->name   = $request->input('name');
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
+        $user->plane_hours = $request->input('plane_hours');
+        $user->week_hours = $request->input('week_hours');
         $user->removeRole($oldRole);
         $user->assignRole($request->input('role'));
         if ($request->password !== null) {

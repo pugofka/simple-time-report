@@ -49,8 +49,27 @@
                 <option value="admin">Пользователь</option>
                 <option value="user">Админ</option>
             @endif
-
         </select>
+    </div>
+</div>
+
+<div class="form-group {{ $errors->has('plane_hours') ?  'has-error' : ''}}">
+    {{ Form::label('plane_hours', 'Плановое рабочее время', ['class' => 'col-md-3 control-label']) }}
+    <div class="col-md-9">
+        {{ Form::number('plane_hours', null, ['class'=>'form-control']) }}
+        @if ($errors->has('plane_hours'))
+            <span class="help-block">{{  $errors->first('plane_hours') }}</span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group {{ $errors->has('week_hours') ?  'has-error' : ''}}">
+    {{ Form::label('week_hours', 'Рабочие часы', ['class' => 'col-md-3 control-label']) }}
+    <div class="col-md-9">
+        {{ Form::number('week_hours', null, ['class'=>'form-control']) }}
+        @if ($errors->has('week_hours'))
+            <span class="help-block">{{  $errors->first('week_hours') }}</span>
+        @endif
     </div>
 </div>
 
