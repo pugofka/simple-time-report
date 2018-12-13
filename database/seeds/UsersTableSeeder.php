@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Role as RoleConst;
 
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -15,22 +16,19 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $userAdmin = \App\User::create([
-            'name' => 'admin',
+            'name' => 'name',
+            'lastname' => 'testLastName',
             'email' => 'info@pugofka.com',
+            'plane_hours' => 0,
+            'week_hours' => 0,
             'password' => \Illuminate\Support\Facades\Hash::make('admin'),
         ]);
 
-        $userUser = \App\User::create([
-            'name' => 'Karmov',
-            'email' => 'Karmov@pugofka.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('swqqpl22'),
-        ]);
-
-        $roleAdmin = \Spatie\Permission\Models\Role::create(['name' => RoleConst::ROLE_ADMIN]);
-        $roleUser = \Spatie\Permission\Models\Role::create(['name' => RoleConst::ROLE_USER]);
+        Role::create(['name' => RoleConst::ROLE_ADMIN]);
+        Role::create(['name' => RoleConst::ROLE_USER]);
 
         $userAdmin->assignRole(RoleConst::ROLE_ADMIN);
-        $userUser->assignRole(RoleConst::ROLE_USER);
     }
 }

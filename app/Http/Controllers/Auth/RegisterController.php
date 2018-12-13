@@ -53,8 +53,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'plane_hours' => ['required', 'integer', 'max:255'],
+            'week_hours' => ['required', 'integer', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:6'],
         ]);
     }
 
@@ -66,26 +69,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-//        return User::create([
-//            'name' => $data['name'],
-//            'email' => $data['email'],
-//            'password' => Hash::make($data['password']),
-//        ]);
 
-        $userClient = \App\User::create([
+        $user = \App\User::create([
             'name' => $data['name'],
+            'last_name' => $data['last_name'],
+            'plane_hours' => $data['plane_hours'],
+            'week_hours' => $data['week_hours'],
             'email' => $data['email'],
             'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
         ]);
 
 
         if ($data['role'] === "user") {
-            $userClient->assignRole(RoleConst::ROLE_USER);
+            $user->assignRole(RoleConst::ROLE_USER);
         } else {
-            $userClient->assignRole(RoleConst::ROLE_ADMIN);
+            $user->assignRole(RoleConst::ROLE_ADMIN);
         }
 
 
-        return $userClient;
+        return $user;
     }
 }
