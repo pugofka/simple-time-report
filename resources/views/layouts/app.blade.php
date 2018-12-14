@@ -15,6 +15,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+
+    @if(Auth::user())
+        @if(Auth::user()->getRoleNames()[0]=='admin')
+            @include('components.header')
+        @endif
+    @endif
+
     <main class="container">
         @yield('content')
     </main>

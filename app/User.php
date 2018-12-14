@@ -10,22 +10,33 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'plane_hours','week_hours',
+        'name',
+        'lastname',
+        'email',
+        'password',
+        'plane_hours',
+        'week_hours',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    public function report()
+    {
+        return $this->hasMany(Report::class)->orderByDesc('created_at');
+    }
 }

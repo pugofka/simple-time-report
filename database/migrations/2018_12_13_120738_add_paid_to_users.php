@@ -14,8 +14,10 @@ class AddPaidToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+
             $table->integer('plane_hours');
             $table->integer('week_hours');
+
         });
     }
 
