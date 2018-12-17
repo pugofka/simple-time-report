@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-
+    protected $dateFormat = 'U';
 
     public function index()
     {
@@ -24,35 +24,47 @@ class ReportController extends Controller
     {
         $reports = Report::query()
             ->get();
+
+//        $author = User::query()
+//            ->where('id', )
+
         return view('reports.all', compact('reports'));
     }
 
+
     public function create()
     {
-        return view('reports.create');
+        $plane_hours = Auth::user()->plane_hours;
+        return view('reports.create', compact('plane_hours'));
     }
 
 
 
     public function store(Request $request)
     {
+
         $now = Carbon::now();
         $reportStartDate = clone $now;
         $reportStartDate = $reportStartDate->subDays($reportStartDate->dayOfWeekIso-1)->startOfDay();
         $reportEndDate = clone $reportStartDate;
         $reportEndDate = $reportEndDate->addDays(6)->endOfDay();
-
         $user_id = Auth::user()->id;
-        $report = Report::create([
+        $author = Auth::user()->name;
+        $reportStartDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportStartDate)
+            ->format('d-m-Y');
+        $reportEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportEndDate)
+            ->format('d-m-Y');
+
+        Report::create([
             'user_id' => $user_id,
-            'plane_hours' => $request['plane_hours'],
+            'author' => $author,
+            'plane_hours' => Auth::user()->plane_hours,
             'fact_hours' => $request['fact_hours'],
             'week_hours' => $request['week_hours'],
             'effective_hours' => $request['effective_hours'],
             'report_start_date' =>  $reportStartDate,
             'report_end_date' => $reportEndDate
         ]);
-        $report->save();
         return redirect(route('reports.index'))->with('status', 'Отчет успешно создан');
     }
 
@@ -60,7 +72,7 @@ class ReportController extends Controller
 
     public function edit($id, Request $request)
     {
-        $report = Report::find($id);
+        $report = Report::findOrFail($id);
 
         return view('reports.edit', compact('report'));
     }
@@ -69,14 +81,12 @@ class ReportController extends Controller
 
     public function update(Request $request, $id)
     {
-        $report = Report::find($id);
+        $report = Report::findOrFail($id);
 
         $report->plane_hours     = $request->input('plane_hours');
         $report->fact_hours      = $request->input('fact_hours');
         $report->week_hours      = $request->input('week_hours');
         $report->effective_hours = $request->input('effective_hours');
-
-
         $report->save();
 
         return redirect(route('reports.index'))->with('status', 'Отчет успешно обновлен');
@@ -86,7 +96,7 @@ class ReportController extends Controller
 
     public function destroy($id)
     {
-        $report = Report::find($id);
+        $report = Report::findOrFail($id);
         $report->delete();
 
         return redirect(route('reports.index'))->with('status', 'Отчет удален');

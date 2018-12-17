@@ -17,9 +17,9 @@
 <body>
 
     @if(Auth::user())
-        @if(Auth::user()->getRoleNames()[0]=='admin')
+        @role('admin')
             @include('components.header')
-        @endif
+        @endrole
     @endif
 
     <main class="container">

@@ -8,7 +8,7 @@
 <div class="form-group {{ $errors->has('plane_hours') ?  'has-error' : ''}}">
     {{ Form::label('plane_hours', 'Плановое рабочее время', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
-        {{ Form::number('plane_hours', null, ['class'=>'form-control']) }}
+        <input type="number" value="{{$plane_hours}}" readonly="readonly" class="form-control">
         @if ($errors->has('plane_hours'))
             <span class="help-block">{{  $errors->first('plane_hours') }}</span>
         @endif

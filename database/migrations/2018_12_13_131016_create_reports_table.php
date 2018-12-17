@@ -16,12 +16,13 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->string('author');
             $table->integer('plane_hours');
             $table->integer('fact_hours');
             $table->integer('week_hours');
             $table->integer('effective_hours');
-            $table->dateTime('report_start_date');
-            $table->dateTime('report_end_date');
+            $table->string('report_start_date');
+            $table->string('report_end_date');
             $table->timestamps();
 
             $table->foreign('user_id')

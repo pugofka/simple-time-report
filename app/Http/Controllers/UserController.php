@@ -62,7 +62,7 @@ class UserController extends Controller
 
     public function edit($id, Request $request)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $role = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
 
         return view('users.edit', compact('user','role'));
@@ -72,7 +72,7 @@ class UserController extends Controller
 
     public function update($id, Request $request, User $user)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $oldRole = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
 
         $user->name   = $request->input('name');
@@ -96,7 +96,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->delete();
 
         return redirect(route('users.index'))->with('status', 'Пользователь удален');

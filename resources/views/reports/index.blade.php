@@ -11,7 +11,7 @@
                 @foreach ($reports as $report)
                     <li class="list-group-item">
                         <span>С {{$report->report_start_date}} - </span>
-                        <span>До{{$report->report_end_date}}</span>
+                        <span>До {{$report->report_end_date}}</span>
                         <span>{{$report->plane_hours}}</span>
                         <span>{{$report->fact_hours}}</span>
                         <span>{{$report->week_hours}}</span>

@@ -3,7 +3,7 @@
 Auth::routes();
 
 
-Route::any('reports/all', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
+Route::get('reports/all', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
 
 Route::middleware('auth')->group(function () {
 

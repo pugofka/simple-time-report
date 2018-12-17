@@ -8,6 +8,7 @@ class Report extends Model
 {
     protected $fillable = [
         'user_id',
+        'author',
         'plane_hours',
         'fact_hours',
         'week_hours',
