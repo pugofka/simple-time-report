@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', 'UserController');
+        Route::resource('statistics', 'StatisticsController');
     });
 
     Route::middleware('role:user')->group(function () {
