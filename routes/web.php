@@ -3,7 +3,7 @@
 Auth::routes();
 
 
-Route::get('reports/all', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
+
 
 Route::middleware('auth')->group(function () {
 
@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', 'UserController');
+        Route::get('reports/all', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
         Route::resource('statistics', 'StatisticsController');
     });
 

@@ -20,17 +20,31 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        $reports = Report::query()
+        $userId = 'all';
+
+        $users = User::query()
             ->get();
 
-//        $author = User::query()
-//            ->where('id', )
+        $reports = Report::query()
+            ->orderBy('report_start_date')
+            ->get();
 
-        return view('reports.all', compact('reports'));
+        if ($request->user) {
+            $userId = $request->user;
+            if ($userId !== 'all') {
+                $reports = Report::query()
+                    ->where('user_id', $userId)
+                    ->get();
+            }
+        }
+        return view('reports.all', compact('users', 'reports'));
     }
 
+    public function reports() {
+        return redirect(route('reports.all'));
+    }
 
     public function create()
     {

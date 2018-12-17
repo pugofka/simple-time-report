@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Report;
+use App\User;
 use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
@@ -9,21 +11,40 @@ class StatisticsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('statistics.index');
+        $userId = 'all';
+
+        $users = User::query()
+            ->get();
+
+        $reports = Report::query()
+            ->orderBy('report_start_date')
+            ->get();
+
+        if ($request->user) {
+            $userId = $request->user;
+            if ($userId !== 'all') {
+                $reports = Report::query()
+                    ->where('user_id', $userId)
+                    ->get();
+            }
+        }
+        return view('statistics.index', compact('users', 'reports'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -34,7 +55,7 @@ class StatisticsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect(route('statistics.index'));
     }
 
     /**
