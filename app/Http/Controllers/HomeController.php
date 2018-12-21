@@ -29,7 +29,7 @@ class HomeController extends Controller
         if ($user->hasRole('admin'))
             return redirect('/users');
         elseif ($user->hasRole('user'))
-            return redirect('/reports');
+            return redirect('/my-reports');
 
         return ;
     }

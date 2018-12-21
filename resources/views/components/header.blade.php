@@ -14,9 +14,6 @@
                         <a class="nav-link" href="{{route('reports.all')}}">Отчеты</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('statistics.index')}}">Статистика</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href=""></a>
                     </li>
 

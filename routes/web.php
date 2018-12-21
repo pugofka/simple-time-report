@@ -8,15 +8,17 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
 
     Route::get('/', 'HomeController@index');
+    Route::resource('reports', 'ReportController');
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', 'UserController');
-        Route::get('reports/all', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
-        Route::resource('statistics', 'StatisticsController');
+        Route::get('reports', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
     });
 
     Route::middleware('role:user')->group(function () {
-        Route::resource('reports', 'ReportController');
+        Route::get('my-reports', [ 'as' => 'reports.index', 'uses' => 'ReportController@index']);
+        Route::get('my-reports/create', [ 'as' => 'reports.create', 'uses' => 'ReportController@create']);
+        Route::get('/my-reports/{report}/edit', 'ReportController@edit');
     });
 
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

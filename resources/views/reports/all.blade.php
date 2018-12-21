@@ -47,7 +47,11 @@
                         <td>{{$report->report_start_date}}</td>
                         <td>{{$report->report_end_date}}</td>
                         <td>{{$report->plane_hours}}</td>
-                        <td>{{$report->fact_hours}}</td>
+                        @if($report->fact_hours < $report->plane_hours)
+                            <td class="text-danger">{{$report->fact_hours}}</td>
+                        @else
+                            <td>{{$report->fact_hours}}</td>
+                        @endif
                         <td>{{$report->week_hours}}</td>
                         <td>{{$report->effective_hours}}</td>
                     </tr>

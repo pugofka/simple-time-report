@@ -28,7 +28,7 @@ class ReportController extends Controller
             ->get();
 
         $reports = Report::query()
-            ->orderBy('report_start_date')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         if ($request->user) {
@@ -36,15 +36,13 @@ class ReportController extends Controller
             if ($userId !== 'all') {
                 $reports = Report::query()
                     ->where('user_id', $userId)
+                    ->orderBy('created_at', 'asc')
                     ->get();
             }
         }
         return view('reports.all', compact('users', 'reports'));
     }
 
-    public function reports() {
-        return redirect(route('reports.all'));
-    }
 
     public function create()
     {
