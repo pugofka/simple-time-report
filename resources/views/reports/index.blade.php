@@ -22,14 +22,16 @@
                     </thead>
                     <tbody>
                     @foreach($reports as $report)
-                        <tr>
+                        <tr class="bg-light text-dark">
                             <td>{{$report->report_start_date}}</td>
                             <td>{{$report->report_end_date}}</td>
                             <td>{{$report->plane_hours}}</td>
                             <td>{{$report->fact_hours}}</td>
                             <td>{{$report->week_hours}}</td>
                             <td>{{$report->effective_hours}}</td>
-                            <td><a href="/my-reports/{{$report->id}}/edit">Редактировать</a></td>
+                            <td>
+                                <a href="/my-reports/{{$report->id}}/edit" class="text-dark">Редактировать</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

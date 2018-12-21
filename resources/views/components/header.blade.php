@@ -23,7 +23,7 @@
                         </li>
                     @endrole
 
-                    <div class="dropdown">
+                    <div class="dropdown ml-0 ml-lg-3">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </button>

@@ -10,7 +10,7 @@
         <div class="col-12 mt-3">
             <div class="table-responsive-sm">
                 <table class="table table-dark">
-                    <thead>
+                    <thead >
                     <tr>
                         <td>Имя</td>
                         <td>Фамилия</td>
@@ -21,13 +21,13 @@
                     </thead>
                     <tbody>
                     @foreach($users as $user)
-                        <tr>
+                        <tr class="bg-light text-dark">
                             <td>{{$user->name}}</td>
                             <td>{{$user->lastname}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->role}}</td>
                             <td>
-                                <a href="/users/{{$user->id}}/edit">Редактировать</a>
+                                <a href="/users/{{$user->id}}/edit" class="text-dark">Редактировать</a>
                             </td>
                         </tr>
                     @endforeach
