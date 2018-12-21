@@ -17,9 +17,7 @@
 <body>
     <div id="app">
         @if(Auth::user())
-            @role('admin')
-                @include('components.header')
-            @endrole
+            @include('components.header')
         @endif
 
         <main class="container">

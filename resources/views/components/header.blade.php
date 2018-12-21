@@ -7,22 +7,27 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                 <a class="navbar-brand" href="/">Time Report</a>
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('users.index')}}">Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('reports.all')}}">Отчеты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
+
+                    @role('admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('users.index')}}">Пользователи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('reports.all')}}">Отчеты</a>
+                        </li>
+                    @endrole
+
+                    @role('user')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('reports.index')}}">Отчеты</a>
+                        </li>
+                    @endrole
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
