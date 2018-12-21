@@ -7,8 +7,9 @@
         </div>
 
         <div class="col-12 mt-4">
-            <table class="table table-dark">
-                <thead>
+            <div class="table-responsive-sm">
+                <table class="table table-dark">
+                    <thead>
                     <tr>
                         <td>С</td>
                         <td>По</td>
@@ -18,8 +19,8 @@
                         <td>Эффективные рабочие часы</td>
                         <td></td>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     @foreach($reports as $report)
                         <tr>
                             <td>{{$report->report_start_date}}</td>
@@ -31,8 +32,10 @@
                             <td><a href="/my-reports/{{$report->id}}/edit">Редактировать</a></td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
             <a href="{{route('reports.create')}}" class="btn btn-success mt-3">Добавить</a>
         </div>
     </div>
