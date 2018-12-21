@@ -15,8 +15,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <main class="container">
-        @yield('content')
-    </main>
+    <div id="app">
+        @if(Auth::user())
+            @include('components.header')
+        @endif
+
+        <main class="container">
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>
