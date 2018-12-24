@@ -53,6 +53,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'plane_hours' => ['required', 'integer', 'max:255'],
+            'week_hours' => ['required', 'integer', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6'],
         ]);
@@ -69,7 +72,9 @@ class RegisterController extends Controller
 
         $user = \App\User::create([
             'name' => $data['name'],
-            'lastname' => $data['lastname'],
+            'last_name' => $data['last_name'],
+            'plane_hours' => $data['plane_hours'],
+            'week_hours' => $data['week_hours'],
             'email' => $data['email'],
             'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
         ]);

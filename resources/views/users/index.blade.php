@@ -12,6 +12,7 @@
                 @foreach ($users as $user)
                     <li class="list-group-item">
                         <span>{{$user->name}}</span>
+                        <span>{{$user->last_name}}</span>
                         <span>{{$user->email}}</span>
                         <span>{{$user->role}}</span>
                         <a href="/users/{{$user->id}}">Редактировать</a>
