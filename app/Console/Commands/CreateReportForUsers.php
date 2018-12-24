@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\ReportCreated;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class CreateReportForUsers extends Command
 {
@@ -66,7 +68,10 @@ class CreateReportForUsers extends Command
                     'report_end_date' => $reportEndDate
                 ]
             );
+
         });
+
+        Notification::send($users,new ReportCreated());
     }
 }
 

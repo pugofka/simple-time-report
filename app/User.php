@@ -39,4 +39,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class)->orderByDesc('created_at');
     }
+
+    /**
+     * @param $notification
+     * @return string
+     */
+    public function routeNotificationForSlack($notification)
+    {
+        return 'https://hooks.slack.com/services/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';
+    }
 }
