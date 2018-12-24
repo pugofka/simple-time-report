@@ -1,8 +1,9 @@
 @if (isset($user))
-    {{ Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'put']) }}
+    {{ Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) }}
 @else
-    {!! Form::open(['url' => route('user.store'), 'class'=>'form', 'method' => 'post']) !!}
+    {!! Form::open(['url' => route('users.store'), 'class'=>'form', 'method' => 'post']) !!}
 @endif
+
 <div class="form-group {{ $errors->has('name') ?  'has-error' : ''}}">
     {{ Form::label('name', 'Имя', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
@@ -46,8 +47,8 @@
                     <option value="user" selected>Пользователь</option>
                 @endif
             @else
-                <option value="admin">Пользователь</option>
-                <option value="user">Админ</option>
+                <option value="user">Пользователь</option>
+                <option value="admin">Админ</option>
             @endif
         </select>
     </div>
@@ -94,7 +95,7 @@
 
 
 @if ($formType == 'edit')
-    {!! Form::open(array('route' => ['user.destroy', 'id' => $user->id], 'method' => 'DELETE', 'class' => '')) !!}
+    {!! Form::open(array('route' => ['users.destroy', 'id' => $user->id], 'method' => 'DELETE', 'class' => '')) !!}
         <div class="form-group">
             <div class="col-md-9">
         <button type="submit" class="btn btn-danger">Удалить</button>

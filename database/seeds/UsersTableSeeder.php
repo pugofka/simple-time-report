@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $userAdmin = \App\User::create([
-            'name' => 'name',
+            'name' => 'admin',
             'lastname' => 'testLastName',
             'email' => 'info@pugofka.com',
             'plane_hours' => 0,
@@ -28,7 +28,6 @@ class UsersTableSeeder extends Seeder
 
         Role::create(['name' => RoleConst::ROLE_ADMIN]);
         Role::create(['name' => RoleConst::ROLE_USER]);
-
         $userAdmin->assignRole(RoleConst::ROLE_ADMIN);
     }
 }
