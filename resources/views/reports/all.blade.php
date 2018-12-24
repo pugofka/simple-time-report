@@ -28,36 +28,38 @@
         </div>
 
         <div class="col-12">
-            <table width="100%" class="table table-dark">
-                <thead>
-                <tr>
-                    <td>Имя</td>
-                    <td>С</td>
-                    <td>По</td>
-                    <td>Плановое рабочее время</td>
-                    <td>Фактическое рабочее время</td>
-                    <td>Рабочие часы</td>
-                    <td>Эффективные рабочие часы</td>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($reports as $report)
-                    <tr>
-                        <td>{{$report->author}}</td>
-                        <td>{{$report->report_start_date}}</td>
-                        <td>{{$report->report_end_date}}</td>
-                        <td>{{$report->plane_hours}}</td>
-                        @if($report->fact_hours < $report->plane_hours)
-                            <td class="text-danger">{{$report->fact_hours}}</td>
-                        @else
-                            <td>{{$report->fact_hours}}</td>
-                        @endif
-                        <td>{{$report->week_hours}}</td>
-                        <td>{{$report->effective_hours}}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive-sm">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <td>Имя</td>
+                            <td>С</td>
+                            <td>По</td>
+                            <td>Плановое рабочее время</td>
+                            <td>Фактическое рабочее время</td>
+                            <td>Рабочие часы</td>
+                            <td>Эффективные рабочие часы</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reports as $report)
+                            <tr>
+                                <td>{{$report->author}}</td>
+                                <td>{{$report->report_start_date}}</td>
+                                <td>{{$report->report_end_date}}</td>
+                                <td>{{$report->plane_hours}}</td>
+                                @if($report->fact_hours < $report->plane_hours)
+                                    <td class="text-danger">{{$report->fact_hours}}</td>
+                                @else
+                                    <td>{{$report->fact_hours}}</td>
+                                @endif
+                                <td>{{$report->week_hours}}</td>
+                                <td>{{$report->effective_hours}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
