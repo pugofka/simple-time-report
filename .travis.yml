@@ -1,0 +1,34 @@
+os:
+  - linux
+language: php
+php:
+  - "7.2"
+before_script:
+  - composer self-update
+  - composer install --no-interaction
+  - cp .env.travis .env
+  - php artisan key:generate
+  - php artisan migrate
+  - php artisan db:seed
+  - pear install pear/PHP_CodeSniffer
+  - phpenv rehash
+  - nvm install 7.7.1
+  - npm install npm@latest -g
+  - npm install -g jshint
+  - npm install
+before_install:
+  - mysql -e 'CREATE DATABASE homestead_test;'
+script:
+  - vendor/bin/phpunit --coverage-text
+  - phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers
+  - npm run production
+  - jshint resources/js/*
+notifications:
+  slack:
+    secure: E13XQC7opQdlu4b28/mM6Pbj85aWFW1uW/10XkrPwXgDwfWvvOoe3YcQpirSNpUfa52/LHxoMaUCkP58cDOtNKItinqmsI6G0hLcRmGNE6FCz9TdNaCOBVVHQhPSoss1kuHCWZXo3r+ey6qynj/EpqXVPhkCselQlaA6+puXC65MlkKQGZ0yqFQN4xxQuWKFRBlHbh3zQ4zU1qXOzkIEMhPDPOgyVnOvm6riLQ3EOs6ME7NySnDOkD6yJwBGnCW2styfBBsM6RuWwm6906V9o/hAjrUkTY4E4FEJZlB5zpynm3lEB9+4i4pilmpJg5voz8zUl9s6SfcU6Bqga4deV5WE1vAo/D1FJRpLWvIBCzCFKUsxBteKGIUIlNAhT6mZWlbpCfBLm6kUQKZeNi1oHbb22gShRatRzqJIe1zcLU5Byih/L/csua1SNAr7YArgrC8QNwocJ/fwXkAvwYXDhnWPARQiwBVE92WaLdce4BMknPOj3ihrC++IXX2zvSz5Q9zEfvfY2u3PUV+DIrBobUeK8orRc4+9zO57xz62kqA7SnCegqTyR859tZFkvhvnb//sMYF9xEbOi8chpa3sDbr/jZXN2lcJofAqb+3pKmo/lCZUbIZM/sZfGyjzSVY0H9Ov30XoNfR86HS6GpbP+tybCkp551syFH9rj3DKHmw=
+services:
+  - mysql
+cache:
+  directories:
+    - node_modules
+    - vendor
