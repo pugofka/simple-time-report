@@ -35,6 +35,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
     public function report()
     {
         return $this->hasMany(Report::class)->orderByDesc('created_at');

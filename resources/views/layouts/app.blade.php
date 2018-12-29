@@ -15,14 +15,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        @if(Auth::user())
-            @include('components.header')
-        @endif
+<div id="app">
+    @if(Auth::user())
+        @include('components.header')
+    @endif
 
-        <main class="container">
-            @yield('content')
-        </main>
-    </div>
+    <main class="container">
+        @yield('content')
+    </main>
+</div>
 </body>
 </html>

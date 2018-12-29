@@ -3,8 +3,6 @@
 Auth::routes();
 
 
-
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/', 'HomeController@index');
@@ -16,16 +14,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:user')->group(function () {
-        Route::get('my-reports', [ 'as' => 'reports.index', 'uses' => 'ReportController@index']);
-        Route::get('my-reports/create', [ 'as' => 'reports.create', 'uses' => 'ReportController@create']);
+        Route::get('/my-reports', [ 'as' => 'reports.index', 'uses' => 'ReportController@index']);
+        Route::get('/my-reports/create', [ 'as' => 'reports.create', 'uses' => 'ReportController@create']);
         Route::get('/my-reports/{report}/edit', 'ReportController@edit');
+
     });
-
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
 });
 
 
+Auth::routes();
 
-
-
+Route::get('/home', 'HomeController@index')->name('home');

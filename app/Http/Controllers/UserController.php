@@ -46,11 +46,10 @@ class UserController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-
-        if ($request['role'] === "user") {
-            $user->assignRole(RoleConst::ROLE_USER);
-        } else {
+        if ($request['role'] === RoleConst::ROLE_ADMIN) {
             $user->assignRole(RoleConst::ROLE_ADMIN);
+        } else {
+            $user->assignRole(RoleConst::ROLE_USER);
         }
 
         $user->save();
@@ -70,7 +69,7 @@ class UserController extends Controller
 
 
 
-    public function update($id, Request $request, User $user)
+    public function update($id, Request $request)
     {
         $user = User::findOrFail($id);
         $oldRole = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
