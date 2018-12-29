@@ -60,13 +60,6 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-  'spatie/laravel-binary-uuid' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\BinaryUuid\\UuidServiceProvider',
-    ),
-  ),
   'spatie/laravel-permission' => 
   array (
     'providers' => 
