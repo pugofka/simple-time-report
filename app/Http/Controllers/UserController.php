@@ -75,7 +75,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $role = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
 
-        return view('users.edit', compact('user','role'));
+        return view('users.edit', compact('user', 'role'));
     }
 
     /**
@@ -101,7 +101,8 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect(route('users.index'))->with('status', 'Пользователь успешно обновлен');
+        return redirect(route('users.index'))
+            ->with('status', 'Пользователь успешно обновлен');
     }
 
     /**
