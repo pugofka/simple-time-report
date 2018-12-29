@@ -8,10 +8,16 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class ReportController
+ * @package App\Http\Controllers
+ */
 class ReportController extends Controller
 {
     protected $dateFormat = 'U';
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $reports = Report::query()
@@ -21,10 +27,13 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function all(Request $request)
     {
         $userId = 'all';
-
         $users = User::query()
             ->get();
 
@@ -44,15 +53,19 @@ class ReportController extends Controller
         return view('reports.all', compact('users', 'reports'));
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $plane_hours = Auth::user()->plane_hours;
         return view('reports.create', compact('plane_hours'));
     }
 
-
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
 
@@ -81,8 +94,11 @@ class ReportController extends Controller
         return redirect(route('reports.index'))->with('status', 'Отчет успешно создан');
     }
 
-
-
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id, Request $request)
     {
         $report = Report::findOrFail($id);
@@ -90,8 +106,11 @@ class ReportController extends Controller
         return view('reports.edit', compact('report'));
     }
 
-
-
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $report = Report::findOrFail($id);
@@ -105,8 +124,10 @@ class ReportController extends Controller
         return redirect(route('reports.index'))->with('status', 'Отчет успешно обновлен');
     }
 
-
-
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $report = Report::findOrFail($id);

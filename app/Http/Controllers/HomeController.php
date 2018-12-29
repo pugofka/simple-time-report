@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers
+ */
 class HomeController extends Controller
 {
     /**
@@ -29,6 +32,6 @@ class HomeController extends Controller
             return redirect('/users');
         elseif ($user->hasRole('user'))
             return redirect('/my-reports');
-        return ;
+        return;
     }
 }

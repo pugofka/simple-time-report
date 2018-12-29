@@ -7,8 +7,15 @@ use App\Role as RoleConst;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $users = User::get();
@@ -20,11 +27,19 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(Request $request)
     {
         return view('users.create');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $user = User::create(
@@ -50,6 +65,11 @@ class UserController extends Controller
             ->with('status', 'Пользователь успешно создан');
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id, Request $request)
     {
         $user = User::findOrFail($id);
@@ -58,6 +78,11 @@ class UserController extends Controller
         return view('users.edit', compact('user','role'));
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update($id, Request $request)
     {
         $user = User::findOrFail($id);
@@ -79,6 +104,10 @@ class UserController extends Controller
         return redirect(route('users.index'))->with('status', 'Пользователь успешно обновлен');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
