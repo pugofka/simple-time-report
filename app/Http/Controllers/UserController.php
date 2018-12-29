@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
-
-
-
     public function index()
     {
         $users = User::get();
@@ -24,27 +20,23 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-
-
-
     public function create(Request $request)
     {
         return view('users.create');
     }
 
-
-
-
     public function store(Request $request)
     {
-        $user = User::create([
-            'name' => $request['name'],
-            'lastname' => $request['lastname'],
-            'plane_hours' => $request['plane_hours'],
-            'week_hours' => $request['week_hours'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-        ]);
+        $user = User::create(
+            [
+                'name' => $request['name'],
+                'lastname' => $request['lastname'],
+                'plane_hours' => $request['plane_hours'],
+                'week_hours' => $request['week_hours'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+            ]
+        );
 
         if ($request['role'] === RoleConst::ROLE_ADMIN) {
             $user->assignRole(RoleConst::ROLE_ADMIN);
@@ -54,10 +46,9 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect(route('users.index'))->with('status', 'Пользователь успешно создан');
+        return redirect(route('users.index'))
+            ->with('status', 'Пользователь успешно создан');
     }
-
-
 
     public function edit($id, Request $request)
     {
@@ -66,8 +57,6 @@ class UserController extends Controller
 
         return view('users.edit', compact('user','role'));
     }
-
-
 
     public function update($id, Request $request)
     {
@@ -89,9 +78,6 @@ class UserController extends Controller
 
         return redirect(route('users.index'))->with('status', 'Пользователь успешно обновлен');
     }
-
-
-
 
     public function destroy($id)
     {
