@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
-
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -9,8 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Role as RoleConst;
-
-
 class RegisterController extends Controller
 {
     /*
@@ -23,16 +19,13 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
-
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
     protected $redirectTo = '/';
-
     /**
      * Create a new controller instance.
      *
@@ -42,7 +35,6 @@ class RegisterController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -60,7 +52,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6'],
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -69,7 +60,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         $user = \App\User::create([
             'name' => $data['name'],
             'last_name' => $data['last_name'],
@@ -78,15 +68,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
         ]);
-
-
         if ($data['role'] === "user") {
             $user->assignRole(RoleConst::ROLE_USER);
         } else {
             $user->assignRole(RoleConst::ROLE_ADMIN);
         }
-
-
         return $user;
     }
 }
