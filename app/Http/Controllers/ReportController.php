@@ -1,7 +1,15 @@
 <?php
-
+/**
+ * MyClass File Doc Comment
+ * php version 7.2
+ *
+ * @category MyClass
+ * @package  MyPackage
+ * @author   Pugofka <info@pugofka.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.hashbangcode.com/
+ */
 namespace App\Http\Controllers;
-
 use App\Report;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User;
@@ -9,13 +17,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class ReportController
- * @package App\Http\Controllers
+ * MyClass Class Doc Comment
+ *
+ * @category Class
+ * @package  MyPackage
+ * @author   Pugofka <info@pugofka.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.hashbangcode.com/
  */
 class ReportController extends Controller
 {
     protected $dateFormat = 'U';
     /**
+     * Page for reports list
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
@@ -28,7 +43,10 @@ class ReportController extends Controller
     }
 
     /**
-     * @param Request $request
+     * All list users for Admin
+     *
+     * @param Request $request The comment
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function all(Request $request)
@@ -54,6 +72,8 @@ class ReportController extends Controller
     }
 
     /**
+     * Creating report for User
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
@@ -63,7 +83,10 @@ class ReportController extends Controller
     }
 
     /**
-     * @param Request $request
+     * Saving report for user
+     *
+     * @param Request $request The comment
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -100,8 +123,11 @@ class ReportController extends Controller
     }
 
     /**
-     * @param $id
-     * @param Request $request
+     * Editing report for user
+     *
+     * @param int     $id      The comment
+     * @param Request $request The comment
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id, Request $request)
@@ -112,8 +138,11 @@ class ReportController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param $id
+     * Updating report for user
+     *
+     * @param Request $request The comment
+     * @param int     $id      The comment
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
@@ -131,7 +160,10 @@ class ReportController extends Controller
     }
 
     /**
-     * @param $id
+     * Destroy report for user
+     *
+     * @param int $id The comment
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
