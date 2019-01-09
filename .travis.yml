@@ -1,33 +1,42 @@
 os:
-- linux
+  - linux
 language: php
 php:
-- '7.2'
+  - "7.2"
 before_script:
-- composer self-update
-- composer install --no-interaction
-- cp .env.travis .env
-- php artisan key:generate
-- php artisan migrate
-- php artisan db:seed
-- pear install pear/PHP_CodeSniffer
-- phpenv rehash
-- nvm install 7.7.1
-- npm install npm@latest -g
-- npm install -g jshint
-- npm install
+  - composer self-update
+  - composer install --no-interaction
+  - cp .env.travis .env
+  - php artisan key:generate
+  - php artisan migrate
+  - php artisan db:seed
+  - pear install pear/PHP_CodeSniffer
+  - phpenv rehash
+  - nvm install 7.7.1
+  - npm install npm@latest -g
+  - npm install -g jshint
+  - npm install
 before_install:
-- mysql -e 'CREATE DATABASE homestead_test;'
+  - mysql -e 'CREATE DATABASE homestead_test;'
 script:
-- npm run lint
-- npm run test
-- npm run production
+  - npm run lint
+  - npm run test
+  - npm run production
 services:
-- mysql
+  - mysql
 cache:
   directories:
-  - node_modules
-  - vendor
+    - node_modules
+    - vendor
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
 notifications:
   slack:
     secure: ReLS/44uQ4k0LOZRtvGqB5W4FWM0D8j5R/vg/3SRzt6gPmmBt7qI+4JA+4bcP5eVxMoztWCslZ/O1aa9Am7l6Fb2BMnc7Xzw1/AO+5WcjYVKURjqVlvZVQXJcEyv9Pg4gAN510B/HLZ8xVUbLhXYgARQ5nDtNOvkBtJ67dItF7w121HZ9Ay5Tt6GX+w1Y5ZFC49ivTGld8sF892SlZmynFEGvtyYA2Vcu71kmzrL+VrEx6vGhZ8zX2vH02Rnmu9xWoosL5VtujzZLUskehJrBkz6Oc+DBZ2inzSuQWhWgxRCuJoUrkOqmJrbGuc2IQz2HT8UVe8IH0SMHS9RoKGZbEn5NNW2Rtr16Vi5ErQ2CO7yKSovdOTcSGFMF0f2JJAtfUTdKA1zbKFLWYj9aADAhW2gut2OzD5b0Yb5Q/TLbnd58u+8yG68su50hs2jkrNm2CC4U9Tf4eWUvuNYRsmVkqYFLqPSzGmIzW3q/59hFovRh1lu7E1H237R9yDAThaaC7Rz+b7MZ/EQP0K96vGDYM2MKd9oz0uj3SLw9/HlJrxlF3fmERg0Gy8oTkCH9RtletsWhrLPJMDzcGXEtwk9NSuOSELq0vHz5uLKJwc1LoK/mGFNHHiH6Vt6cPgvBOfUXktXvgGwT5oSl5iFP+LRTYogXLUqlMBBOHKsceqqKbU=
+env:
+  global:
+    secure: toErrn5u0wQwGuTKanoBT99gFpZae1KfwFO86aUsuwnY1Hw6sjK8/MlEwvG6aq1lC/Lw2CnyYo9exMo2XuEKBTWucxz/1apdOtbguV6X0SyeeRZCj+ZZbEUd/iUH3nOOHIoOvKuTXHJ5UKHbEE0HasjcrikUtTKR2140Ndu/MqYAP7t4/Rb4uBqz4Vj6mB1vm/b9pm4T0CJPVfLgTb/ad/UBhk0ib2PKlEtpj2B+obUhVf7RgrTDLQwLU+TPw3Vqs50UqLqJzWyFdyRmpcygwWbunqL8+CW8TC4BGXolxo1uP47hGf8feHjT7dQzykpwLnkaST6kbsDFh5+Dz6cRwtAWGhSXT/Q+6jD9uRUeuKOj1u2nedmvsA+0qxE/a3stgmyse77ttpliNvGYCdBYx/Nj1JAeUUTVHsZIMco6yLfb87w8JCkaoNP2y6kLS2al9fPEiu6AF/yR0ratG18FJfMObtQFQTxMyy4Xblo0mtORm7sgZxN9YPX+I0Kl0LxNkpFtCD7pMItPyPsnu2joliv++xkgrUgRbfPgq6fGrZr6nQBiIF0Zu7inRX/J8qoEb1yk+5q9JPi3CiSKWCkpOml1CIqPQN3k+iBOPGSdQFpB217XBALn2O0GoXFT0ajF63+b6685t58Di7QF1hUqmwOCeSE/4ReDl0jKZhYrNXE=
