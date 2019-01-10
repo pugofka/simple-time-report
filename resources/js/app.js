@@ -1,7 +1,5 @@
-require('./bootstrap');
+require("./bootstrap");
 
-
-const app = new Vue({
-    el: "#app",
-
-});
+// const app = new Vue({
+//     el: "#app"
+// });
