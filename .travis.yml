@@ -12,23 +12,31 @@ before_script:
   - php artisan db:seed
   - pear install pear/PHP_CodeSniffer
   - phpenv rehash
-  - nvm install 7.7.1
+  - nvm install 8.10.0
   - npm install npm@latest -g
   - npm install -g jshint
   - npm install
 before_install:
   - mysql -e 'CREATE DATABASE homestead_test;'
 script:
-  - vendor/bin/phpunit --coverage-text
-  - phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers
+  - npm run lint
+  - npm run test
   - npm run production
-  - jshint resources/js/*
-notifications:
-  slack:
-    secure: E13XQC7opQdlu4b28/mM6Pbj85aWFW1uW/10XkrPwXgDwfWvvOoe3YcQpirSNpUfa52/LHxoMaUCkP58cDOtNKItinqmsI6G0hLcRmGNE6FCz9TdNaCOBVVHQhPSoss1kuHCWZXo3r+ey6qynj/EpqXVPhkCselQlaA6+puXC65MlkKQGZ0yqFQN4xxQuWKFRBlHbh3zQ4zU1qXOzkIEMhPDPOgyVnOvm6riLQ3EOs6ME7NySnDOkD6yJwBGnCW2styfBBsM6RuWwm6906V9o/hAjrUkTY4E4FEJZlB5zpynm3lEB9+4i4pilmpJg5voz8zUl9s6SfcU6Bqga4deV5WE1vAo/D1FJRpLWvIBCzCFKUsxBteKGIUIlNAhT6mZWlbpCfBLm6kUQKZeNi1oHbb22gShRatRzqJIe1zcLU5Byih/L/csua1SNAr7YArgrC8QNwocJ/fwXkAvwYXDhnWPARQiwBVE92WaLdce4BMknPOj3ihrC++IXX2zvSz5Q9zEfvfY2u3PUV+DIrBobUeK8orRc4+9zO57xz62kqA7SnCegqTyR859tZFkvhvnb//sMYF9xEbOi8chpa3sDbr/jZXN2lcJofAqb+3pKmo/lCZUbIZM/sZfGyjzSVY0H9Ov30XoNfR86HS6GpbP+tybCkp551syFH9rj3DKHmw=
 services:
   - mysql
 cache:
   directories:
     - node_modules
     - vendor
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
+notifications:
+  slack:
+    secure: ReLS/44uQ4k0LOZRtvGqB5W4FWM0D8j5R/vg/3SRzt6gPmmBt7qI+4JA+4bcP5eVxMoztWCslZ/O1aa9Am7l6Fb2BMnc7Xzw1/AO+5WcjYVKURjqVlvZVQXJcEyv9Pg4gAN510B/HLZ8xVUbLhXYgARQ5nDtNOvkBtJ67dItF7w121HZ9Ay5Tt6GX+w1Y5ZFC49ivTGld8sF892SlZmynFEGvtyYA2Vcu71kmzrL+VrEx6vGhZ8zX2vH02Rnmu9xWoosL5VtujzZLUskehJrBkz6Oc+DBZ2inzSuQWhWgxRCuJoUrkOqmJrbGuc2IQz2HT8UVe8IH0SMHS9RoKGZbEn5NNW2Rtr16Vi5ErQ2CO7yKSovdOTcSGFMF0f2JJAtfUTdKA1zbKFLWYj9aADAhW2gut2OzD5b0Yb5Q/TLbnd58u+8yG68su50hs2jkrNm2CC4U9Tf4eWUvuNYRsmVkqYFLqPSzGmIzW3q/59hFovRh1lu7E1H237R9yDAThaaC7Rz+b7MZ/EQP0K96vGDYM2MKd9oz0uj3SLw9/HlJrxlF3fmERg0Gy8oTkCH9RtletsWhrLPJMDzcGXEtwk9NSuOSELq0vHz5uLKJwc1LoK/mGFNHHiH6Vt6cPgvBOfUXktXvgGwT5oSl5iFP+LRTYogXLUqlMBBOHKsceqqKbU=
+env:
+  global:
+    secure: u/doxuLyPIjitaOvqSFCjIEIGVMNKUyfe8eQaTFSU7QJ+76HqaQE/YlMzEe5UN7689XmX3LD0//KiYKIhN5QaTh8Bm/DVrPDX0e/rrlyn0P5C1gGUIGmy0K/qZEzXAXXVLvYOte+8uuj0tJkbYf6N99UgTJ0X6FUt19FfpeCRRez0zNcKwBBBN4EthLC/d3bT+aYlIad7Ye6Y8VYbUMJPwNkUc4a/cYV/8ssIWWIjUluY53wc0190RozgzsWsLMK6/22R6499ygaF+y5w5Rd8FxDaV7jXxH5ZNQOilm9v5BVC1nQ+iNIvjRF12AO+My14ZqlWvrasTlzGrhUa1TDnQ71at1dBoVk96/v9KyUj+elETpejobD3nqjUUvWWfFVYPvZDaefPY/FN4M5jIn/2iT2X9GS5/JdSpMDtUlu84MVTqDRMve2LWLw+COk+/H+ZBWpjLN5W6mbi5GoqmwuD7IdjaA95z4xLjEB4yAELB7NJqNf4GfIrnjzZmwc14OEZFm0tMS64zzzGl+XIwr1NrNlxjWmMiY5EW1UPNIUoOsUtIvYsHHcYLMVI6WsVdfnXjAkMgngPgZ2fMTWq2pMNEI2l8Zg+HNVIROKcynFFmLdrmhRqVRL1JkLSs63QBzPK5UcPycvKpa/jKyl7pXCjhepiKYJgjH5rXPZa8yolvA=

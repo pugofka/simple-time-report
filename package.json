@@ -7,17 +7,23 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "test": "npm run php-unit",
+        "lint": "npm run php-lint && npm run js-lint",
+        "php-unit": "vendor/bin/phpunit --coverage-text",
+        "php-lint": "phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers",
+        "js-lint": "jshint resources/js/*"
     },
     "devDependencies": {
+        "cross-env": "^5.1",
+        "laravel-mix": "^2.0"
+    },
+    "dependencies": {
         "axios": "^0.18.0",
         "bootstrap": "^4.0.0",
-        "cross-env": "^5.1",
-        "cz-customizable": "^5.3.0",
         "jquery": "^3.2",
-        "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
-        "popper.js": "^1.12",
+        "popper.js": "^1.14.6",
         "vue": "^2.5.17"
     }
 }

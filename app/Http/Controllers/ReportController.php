@@ -1,17 +1,38 @@
 <?php
-
+/**
+ * MyClass File Doc Comment
+ * php version 7.2
+ *
+ * @category MyClass
+ * @package  MyPackage
+ * @author   Pugofka <info@pugofka.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.hashbangcode.com/
+ */
 namespace App\Http\Controllers;
-
 use App\Report;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * MyClass Class Doc Comment
+ *
+ * @category Class
+ * @package  MyPackage
+ * @author   Pugofka <info@pugofka.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.hashbangcode.com/
+ */
 class ReportController extends Controller
 {
     protected $dateFormat = 'U';
-
+    /**
+     * Page for reports list
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $reports = Report::query()
@@ -21,10 +42,16 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
 
+    /**
+     * All list users for Admin
+     *
+     * @param Request $request The comment
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function all(Request $request)
     {
         $userId = 'all';
-
         $users = User::query()
             ->get();
 
@@ -44,12 +71,24 @@ class ReportController extends Controller
         return view('reports.all', compact('users', 'reports'));
     }
 
+    /**
+     * Creating report for User
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $plane_hours = Auth::user()->plane_hours;
         return view('reports.create', compact('plane_hours'));
     }
 
+    /**
+     * Saving report for user
+     *
+     * @param Request $request The comment
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
 
@@ -83,6 +122,14 @@ class ReportController extends Controller
             ->with('status', 'Отчет успешно создан');
     }
 
+    /**
+     * Editing report for user
+     *
+     * @param int     $id      The comment
+     * @param Request $request The comment
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id, Request $request)
     {
         $report = Report::findOrFail($id);
@@ -90,6 +137,14 @@ class ReportController extends Controller
         return view('reports.edit', compact('report'));
     }
 
+    /**
+     * Updating report for user
+     *
+     * @param Request $request The comment
+     * @param int     $id      The comment
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $report = Report::findOrFail($id);
@@ -104,6 +159,13 @@ class ReportController extends Controller
             ->with('status', 'Отчет успешно обновлен');
     }
 
+    /**
+     * Destroy report for user
+     *
+     * @param int $id The comment
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $report = Report::findOrFail($id);
