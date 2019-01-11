@@ -76,9 +76,11 @@ class UserController extends Controller
 
         if ($request['role'] === RoleConst::ROLE_ADMIN) {
             $user->assignRole(RoleConst::ROLE_ADMIN);
+            $user->is_admin = 1;
         } else {
             $user->assignRole(RoleConst::ROLE_USER);
         }
+
 
         $user->save();
 
@@ -97,7 +99,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $role = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
-
         return view('users.edit', compact('user', 'role'));
     }
 
@@ -120,6 +121,13 @@ class UserController extends Controller
         $user->week_hours = $request->input('week_hours');
         $user->removeRole($oldRole);
         $user->assignRole($request->input('role'));
+
+        if ($request->input('role') === 'admin') {
+            $user->is_admin = 1;
+        } else {
+            $user->is_admin = 0;
+        }
+
         if ($request->password !== null) {
             $user->password = Hash::make($request->input('password'));
         }
@@ -141,6 +149,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect(route('users.index'))->with('status', 'Пользователь удален');
+        return redirect(route('users.index'))->with('status', 'Пользователь успешно удален');
     }
 }

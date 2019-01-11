@@ -6,6 +6,12 @@
             <h1>Отчеты</h1>
         </div>
 
+        @if (session()->has('status'))
+            <div class="col-12 mt-3 status status--success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <div class="col-12 mt-4">
             <div class="table-responsive-sm">
                 <table class="table table-dark">
@@ -37,8 +43,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <a href="{{route('reports.create')}}" class="btn btn-success mt-3">Добавить</a>
         </div>
     </div>
 @endsection

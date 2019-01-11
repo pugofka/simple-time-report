@@ -72,57 +72,6 @@ class ReportController extends Controller
     }
 
     /**
-     * Creating report for User
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        $plane_hours = Auth::user()->plane_hours;
-        return view('reports.create', compact('plane_hours'));
-    }
-
-    /**
-     * Saving report for user
-     *
-     * @param Request $request The comment
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(Request $request)
-    {
-
-        $now = Carbon::now();
-        $reportStartDate = clone $now;
-        $reportStartDate = $reportStartDate
-            ->subDays($reportStartDate->dayOfWeekIso-1)
-            ->startOfDay();
-        $reportEndDate = clone $reportStartDate;
-        $reportEndDate = $reportEndDate->addDays(6)->endOfDay();
-        $user_id = Auth::user()->id;
-        $author = Auth::user()->name;
-        $reportStartDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportStartDate)
-            ->format('d-m-Y');
-        $reportEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportEndDate)
-            ->format('d-m-Y');
-
-        Report::create(
-            [
-                'user_id' => $user_id,
-                'author' => $author,
-                'plane_hours' => Auth::user()->plane_hours,
-                'fact_hours' => $request['fact_hours'],
-                'week_hours' => $request['week_hours'],
-                'effective_hours' => $request['effective_hours'],
-                'report_start_date' =>  $reportStartDate,
-                'report_end_date' => $reportEndDate
-            ]
-        );
-        return redirect(route('reports.index'))
-            ->with('status', 'Отчет успешно создан');
-    }
-
-    /**
      * Editing report for user
      *
      * @param int     $id      The comment
@@ -148,29 +97,19 @@ class ReportController extends Controller
     public function update(Request $request, $id)
     {
         $report = Report::findOrFail($id);
+        if ($request->week_hours > $request->fact_hours) {
+            return redirect(url('/my-reports/' . $id . '/edit'))->with('status', 'Рабочие часы не могут превышать фактического рабочего времени.');
+        } elseif ($request->effective_hours > $request->week_hours) {
+            return redirect(url('/my-reports/' . $id . '/edit'))->with('status', 'Эффективные рабочие часы не могут превышать рабочих часов.');
+        } else {
+            $report->plane_hours     = $request->input('plane_hours');
+            $report->fact_hours      = $request->input('fact_hours');
+            $report->week_hours      = $request->input('week_hours');
+            $report->effective_hours = $request->input('effective_hours');
+            $report->save();
 
-        $report->plane_hours     = $request->input('plane_hours');
-        $report->fact_hours      = $request->input('fact_hours');
-        $report->week_hours      = $request->input('week_hours');
-        $report->effective_hours = $request->input('effective_hours');
-        $report->save();
-
-        return redirect(route('reports.index'))
+            return redirect(route('reports.index'))
             ->with('status', 'Отчет успешно обновлен');
-    }
-
-    /**
-     * Destroy report for user
-     *
-     * @param int $id The comment
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy($id)
-    {
-        $report = Report::findOrFail($id);
-        $report->delete();
-
-        return redirect(route('reports.index'))->with('status', 'Отчет удален');
+        }
     }
 }
