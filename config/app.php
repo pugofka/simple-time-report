@@ -13,7 +13,29 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'sss'),
+    'name' => env('APP_NAME', 'Time Report'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Time creating new report
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the time for creating reports.
+    |
+    */
+    
+    'create_report' => env('TIME_CREATE_REPORT', '17:00'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Slack notification hook
+    |--------------------------------------------------------------------------
+    |
+    | This value determines url for payload slack notification.
+    |
+    */
+    
+    'slack_notification_hook_url' => env('SLACK_NOTIFICATION_HOOK_URL', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +89,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Moscow',
 
     /*
     |--------------------------------------------------------------------------

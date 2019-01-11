@@ -7,6 +7,12 @@
             <h1>Пользователи</h1>
         </div>
 
+        @if (session()->has('status'))
+            <div class="col-12 mt-3 status status--success">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <div class="col-12 mt-3">
             <div class="table-responsive-sm">
                 <table class="table table-dark">

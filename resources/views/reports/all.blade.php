@@ -14,7 +14,9 @@
                     <select name="user" id="role" class="form-control" required>
                         <option value="all" @if(request()->user == 'all') selected @endif>Все</option>
                         @foreach ($users as $user)
-                            <option value="{{$user->id}}" @if(request()->user == $user->id) selected @endif>{{$user->name}}</option>
+                            @if ($user->is_admin!==1)
+                                <option value="{{$user->id}}" @if(request()->user == $user->id) selected @endif>{{$user->name}} {{$user->lastname}}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

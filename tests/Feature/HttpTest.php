@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature;
 
 use App\Report;
 use App\User;
@@ -10,10 +10,8 @@ use App\Role as RoleConst;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
-class LoginTest extends TestCase
+class HttpTest extends TestCase
 {
-
     /**
      * A basic test example.
      *
@@ -54,40 +52,13 @@ class LoginTest extends TestCase
          $response = $this->actingAs($user)->get('/my-reports');
          $response->assertStatus(200);
 
-         // Create
-
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $response = $this->actingAs($user)->get('/my-reports/create');
-         $response->assertStatus(403);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_USER);
-         $response = $this->actingAs($user)->get('/my-reports/create');
-         $response->assertStatus(200);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_ADMIN);
-         $response = $this->actingAs($user)->get('/my-reports/create');
-         $response->assertStatus(403);
-
          //Edit
-
          $firstReport = Report::query()->first();
 
          $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $response = $this->actingAs($user)->get('/my-reports/'. $firstReport->id . '/edit');
-         $response->assertStatus(403);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
          $user->assignRole(RoleConst::ROLE_USER);
          $response = $this->actingAs($user)->get('/my-reports/'. $firstReport->id . '/edit');
          $response->assertStatus(200);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_ADMIN);
-         $response = $this->actingAs($user)->get('/my-reports/'. $firstReport->id . '/edit');
-         $response->assertStatus(403);
 
      }
 
@@ -104,17 +75,6 @@ class LoginTest extends TestCase
          $user->assignRole(RoleConst::ROLE_ADMIN);
          $response = $this->actingAs($user)->get('/reports?user=all');
          $response->assertStatus(200);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_USER);
-         $response = $this->actingAs($user)->get('/reports?user=all');
-         $response->assertStatus(403);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_USER);
-         $response = $this->actingAs($user)->get('/reports?user='. $firstReport->id);
-         $response->assertStatus(403);
-
 
          $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
          $user->assignRole(RoleConst::ROLE_ADMIN);

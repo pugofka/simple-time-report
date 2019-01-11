@@ -13,6 +13,7 @@ public/hot
 public/css
 public/img
 public/js
+public/mix-manifest.json
 .idea
 laradock
 storage/*.key
@@ -24,3 +25,7 @@ Homestead.json
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
+
+# Tests
+
+tests/codeCoverage/

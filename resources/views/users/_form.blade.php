@@ -4,10 +4,11 @@
     {!! Form::open(['url' => route('users.store'), 'class'=>'form', 'method' => 'post']) !!}
 @endif
 
+
 <div class="form-group {{ $errors->has('name') ?  'has-error' : ''}}">
     {{ Form::label('name', 'Имя', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
-        {{ Form::text('name', null, ['class'=>'form-control']) }}
+        {{ Form::text('name', null, ['class'=>'form-control', 'required']) }}
         @if ($errors->has('name'))
             <span class="help-block">{{  $errors->first('name') }}</span>
         @endif
@@ -17,7 +18,7 @@
 <div class="form-group {{ $errors->has('lastname') ?  'has-error' : ''}}">
     {{ Form::label('lastname', 'Фамилия', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
-        {{ Form::text('lastname', null, ['class'=>'form-control']) }}
+        {{ Form::text('lastname', null, ['class'=>'form-control', 'required']) }}
         @if ($errors->has('lastname'))
             <span class="help-block">{{  $errors->first('lastname') }}</span>
         @endif
@@ -27,57 +28,45 @@
 <div class="form-group {{ $errors->has('email') ?  'has-error' : ''}}">
     {{ Form::label('email', 'E-Mail', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
-        {{ Form::text('email', null, ['class'=>'form-control']) }}
+        {{ Form::text('email', null, ['class'=>'form-control', 'required']) }}
         @if ($errors->has('email'))
             <span class="help-block">{{  $errors->first('email') }}</span>
         @endif
     </div>
 </div>
 
-<div class="form-group">
-    {{ Form::label('role', 'Роль', ['class' => 'col-md-3 control-label']) }}
-    <div class="col-md-9">
-        <select name="role" id="role" class="form-control" required>
-            @if ($formType == 'edit')
-                @if($role === "admin")
-                    <option value="admin" selected>Админ</option>
-                    <option value="user">Пользователь</option>
-                @else
-                    <option value="admin">Админ</option>
-                    <option value="user" selected>Пользователь</option>
-                @endif
-            @else
-                <option value="user">Пользователь</option>
-                <option value="admin">Админ</option>
-            @endif
-        </select>
-    </div>
-</div>
+@php
+    $rolesList = ["user","admin"];
+@endphp
 
-<div class="form-group {{ $errors->has('plane_hours') ?  'has-error' : ''}}">
-    {{ Form::label('plane_hours', 'Плановое рабочее время', ['class' => 'col-md-3 control-label']) }}
-    <div class="col-md-9">
-        {{ Form::number('plane_hours', null, ['class'=>'form-control']) }}
-        @if ($errors->has('plane_hours'))
-            <span class="help-block">{{  $errors->first('plane_hours') }}</span>
-        @endif
-    </div>
-</div>
 
-<div class="form-group {{ $errors->has('week_hours') ?  'has-error' : ''}}">
-    {{ Form::label('week_hours', 'Рабочие часы', ['class' => 'col-md-3 control-label']) }}
-    <div class="col-md-9">
-        {{ Form::number('week_hours', null, ['class'=>'form-control']) }}
-        @if ($errors->has('week_hours'))
-            <span class="help-block">{{  $errors->first('week_hours') }}</span>
-        @endif
-    </div>
-</div>
+
+@if ($formType == 'edit')
+    <app-create-user
+        current_role = "{{ $role }}"
+        :roles_list ="{{ json_encode($rolesList) }}"
+        action_type = 'edit'
+        plane_hours = "{{ $user->plane_hours }}"
+        week_hours = "{{ $user->week_hours }}"
+        user = {{ Auth::user()->id }}
+        user_id = {{$user->id}}
+    ></app-create-user>
+@else
+    <app-create-user
+        :roles_list ="{{ json_encode($rolesList) }}"
+        action_type = 'create'
+    ></app-create-user>
+@endif
+
 
 <div class="form-group">
     {{ Form::label('password', 'Пароль', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">
-        <input type="password" name="password" class="form-control">
+        @if ($formType == 'create')
+            <input type="password" name="password" class="form-control" required>
+        @else
+            <input type="password" name="password" class="form-control">
+        @endif
     </div>
 </div>
 
