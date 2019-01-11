@@ -98,9 +98,17 @@ class ReportController extends Controller
     {
         $report = Report::findOrFail($id);
         if ($request->week_hours > $request->fact_hours) {
-            return redirect(url('/my-reports/' . $id . '/edit'))->with('status', 'Рабочие часы не могут превышать фактического рабочего времени.');
+            return redirect(url('/my-reports/' . $id . '/edit'))
+                ->with(
+                    'status',
+                    'Рабочие часы не могут превышать фактического рабочего времени.'
+                );
         } elseif ($request->effective_hours > $request->week_hours) {
-            return redirect(url('/my-reports/' . $id . '/edit'))->with('status', 'Эффективные рабочие часы не могут превышать рабочих часов.');
+            return redirect(url('/my-reports/' . $id . '/edit'))
+                ->with(
+                    'status',
+                    'Эффективные рабочие часы не могут превышать рабочих часов.'
+                );
         } else {
             $report->plane_hours     = $request->input('plane_hours');
             $report->fact_hours      = $request->input('fact_hours');
