@@ -42,7 +42,7 @@ class CreateReportForUsers extends Command
      */
     public function handle()
     {
-        $users = User::where('is_admin', "=", 1)
+        $users = User::where('is_admin', "=", 0)
             ->get();
 
         $users->each(function($user) {
