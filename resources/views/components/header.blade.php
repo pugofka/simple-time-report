@@ -5,7 +5,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="/">Time Report</a>
+            <a class="navbar-brand" href="/">{{ config('app.name', 'Time Report') }}</a>
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 
                     @role('admin')
