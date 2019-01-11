@@ -56,14 +56,3 @@
     </div>
 </div>
 {{ Form::close() }}
-
-
-
-{!! Form::open(array('route' => ['reports.destroy', 'id' => $report->id], 'method' => 'DELETE', 'class' => '')) !!}
-<div class="form-group">
-    <div class="col-md-9">
-        {{ Form::submit('Удалить', ['class' => 'btn btn-danger']) }}
-    </div>
-</div>
-{!! Form::close() !!}
-
