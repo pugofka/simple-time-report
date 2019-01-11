@@ -17,10 +17,10 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('author');
-            $table->integer('plane_hours');
-            $table->integer('fact_hours');
-            $table->integer('week_hours');
-            $table->integer('effective_hours');
+            $table->float('plane_hours');
+            $table->float('fact_hours');
+            $table->float('week_hours');
+            $table->float('effective_hours');
             $table->string('report_start_date');
             $table->string('report_end_date');
             $table->timestamps();

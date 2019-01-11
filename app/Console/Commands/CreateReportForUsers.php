@@ -42,7 +42,7 @@ class CreateReportForUsers extends Command
      */
     public function handle()
     {
-        $users = User::query()
+        $users = User::where('is_admin', "=", 0)
             ->get();
 
         $users->each(function($user) {
@@ -59,7 +59,7 @@ class CreateReportForUsers extends Command
             DB::table('reports')->insert(
                 [
                     'user_id' => $user->id,
-                    'author' => $user->name,
+                    'author' => $user->name . ' ' . $user->lastname,
                     'plane_hours' => $user->plane_hours,
                     'fact_hours' => 0,
                     'week_hours' => 0,
@@ -68,10 +68,12 @@ class CreateReportForUsers extends Command
                     'report_end_date' => $reportEndDate
                 ]
             );
-
         });
 
-        Notification::send($users,new ReportCreated());
+        $firstUser = User::query()
+            ->firstOrFail();
+
+        Notification::send($firstUser, new ReportCreated());
     }
 }
 
