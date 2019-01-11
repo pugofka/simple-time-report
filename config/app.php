@@ -28,6 +28,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Slack notification hook
+    |--------------------------------------------------------------------------
+    |
+    | This value determines url for payload slack notification.
+    |
+    */
+    
+    'slack_notification_hook_url' => env('SLACK_NOTIFICATION_HOOK_URL', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
