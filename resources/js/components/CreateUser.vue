@@ -7,7 +7,7 @@
           name="role"
           id="role"
           class="form-control"
-          v-if="actionType === 'edit'"
+          v-if="action_type === 'edit'"
           v-model="selectRole"
           :disabled="user === user_id"
         >
@@ -28,7 +28,7 @@
       <div class="col-md-9">
         <label for="plane_hours">Плановое рабочее время</label>
         <input
-          v-if="actionType === 'edit'"
+          v-if="action_type === 'edit'"
           type="number"
           :value="planeHours"
           name="plane_hours"
@@ -52,7 +52,7 @@
       <div class="col-md-9">
         <label for="week_hours">Рабочие часы</label>
         <input
-          v-if="actionType === 'edit'"
+          v-if="action_type === 'edit'"
           type="number"
           name="week_hours"
           id="week_hours"
@@ -88,17 +88,11 @@ export default {
   data() {
     return {
       selectRole: this.current_role || "user",
-      roleList: null,
-      currentRole: null,
-      actionType: null,
+      roleList: this.roles_list,
+      currentRole: this.current_role,
       planeHours: this.plane_hours,
       weekHours: this.week_hours
     };
-  },
-  mounted() {
-    this.roleList = this.roles_list;
-    this.currentRole = this.current_role;
-    this.actionType = this.action_type;
   },
   watch: {
     selectRole(newVal, oldVal) {
