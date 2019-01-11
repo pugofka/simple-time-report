@@ -13,6 +13,7 @@ public/hot
 public/css
 public/img
 public/js
+public/mix-manifest.json
 .idea
 laradock
 storage/*.key
