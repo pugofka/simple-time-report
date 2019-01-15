@@ -50,10 +50,8 @@ _Schedulers_ запускаются командой `php artisan [schedule-task
 
 ### JS-линтер
 
--   Ставим глобально линтер `npm install -g jshint`
 -   Запускаем `npm run js-lint`
 
 ### PHP-линтер
 
--   Ставим глобальный пакет `pear install pear/PHP_CodeSniffer`
 -   Запускаем проверку `npm run php-lint`
