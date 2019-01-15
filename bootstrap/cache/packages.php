@@ -1,16 +1,16 @@
 <?php return array (
-  'beyondcode/laravel-dump-server' => 
+  'nesbot/carbon' => 
   array (
     'providers' => 
     array (
-      0 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
+      0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-  'fideloper/proxy' => 
+  'laravel/slack-notification-channel' => 
   array (
     'providers' => 
     array (
-      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+      0 => 'Illuminate\\Notifications\\SlackChannelServiceProvider',
     ),
   ),
   'laravel/nexmo-notification-channel' => 
@@ -20,11 +20,11 @@
       0 => 'Illuminate\\Notifications\\NexmoChannelServiceProvider',
     ),
   ),
-  'laravel/slack-notification-channel' => 
+  'fideloper/proxy' => 
   array (
     'providers' => 
     array (
-      0 => 'Illuminate\\Notifications\\SlackChannelServiceProvider',
+      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
     ),
   ),
   'laravel/tinker' => 
@@ -46,11 +46,18 @@
       'Html' => 'Collective\\Html\\HtmlFacade',
     ),
   ),
-  'nesbot/carbon' => 
+  'spatie/laravel-permission' => 
   array (
     'providers' => 
     array (
-      0 => 'Carbon\\Laravel\\ServiceProvider',
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+    ),
+  ),
+  'beyondcode/laravel-dump-server' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
     ),
   ),
   'nunomaduro/collision' => 
@@ -58,13 +65,6 @@
     'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    ),
-  ),
-  'spatie/laravel-permission' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
   ),
 );

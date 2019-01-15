@@ -11,11 +11,12 @@
         "test": "npm run php-unit",
         "lint": "npm run php-lint && npm run js-lint",
         "php-unit": "vendor/bin/phpunit --coverage-text",
-        "php-lint": "phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers",
+        "php-lint": "vendor/bin/phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers",
         "js-lint": "jshint resources/js/*"
     },
     "devDependencies": {
         "cross-env": "^5.1",
+        "jshint": "^2.9.7",
         "laravel-mix": "^2.0"
     },
     "dependencies": {
