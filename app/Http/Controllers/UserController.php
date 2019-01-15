@@ -58,6 +58,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // @todo https://laravel.com/docs/5.7/requests#retrieving-input смотри Retrieving Input Via Dynamic Properties
+        //  через массив работать плохо. Ты не приводишь объект к массиву.
         $user = User::create(
             [
                 'name' => $request['name'],
@@ -71,11 +73,12 @@ class UserController extends Controller
 
         if ($request['role'] === RoleConst::ROLE_ADMIN) {
             $user->assignRole(RoleConst::ROLE_ADMIN);
+            // @todo разобраться с ролями. Сейчас 2 функциональные истории независимот и с потенциальными конфликтами
+            // отвечают за одно и то же.
             $user->is_admin = 1;
         } else {
             $user->assignRole(RoleConst::ROLE_USER);
         }
-
 
         $user->save();
 
@@ -93,6 +96,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        // @todo REFACTOR!
         $role = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
         return view('users.edit', compact('user', 'role'));
     }
@@ -108,6 +112,7 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         $user = User::findOrFail($id);
+        // @todo REFACTOR!
         $oldRole = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
         $user->name = $request->input('name');
         $user->lastname = $request->input('lastname');
@@ -117,12 +122,13 @@ class UserController extends Controller
         $user->removeRole($oldRole);
         $user->assignRole($request->input('role'));
 
+        // @todo REFACTOR!
         if ($request->input('role') === 'admin') {
             $user->is_admin = 1;
         } else {
             $user->is_admin = 0;
         }
-
+        
         if ($request->password !== null) {
             $user->password = Hash::make($request->input('password'));
         }
