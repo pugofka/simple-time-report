@@ -36,11 +36,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::get();
-        $usersCount = count($users);
-        for ($i = 0; $i < $usersCount; $i++) {
-            $users[$i]->role = $users[$i]->getRoleNames()[0];
-        }
-
         return view('users.index', compact('users'));
     }
 
