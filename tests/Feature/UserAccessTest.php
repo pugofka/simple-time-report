@@ -3,15 +3,26 @@
 namespace Tests\Feature;
 
 use App\Report;
-use App\User;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Role as RoleConst;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
-class HttpTest extends TestCase
+
+class UserAccessTest extends TestCase
 {
+    use RefreshDatabase;
+
+    /**
+     * setUp test with seeding database
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        Artisan::call('db:seed');
+    }
+
     /**
      * A basic test example.
      *
@@ -42,7 +53,6 @@ class HttpTest extends TestCase
         $response->assertStatus(200);
     }
 
-
      public function testCanUserCRUDMyReports()
      {
          factory(Report::class)->create();
@@ -62,7 +72,6 @@ class HttpTest extends TestCase
 
      }
 
-
      public function testCanUserViewReports() {
          $firstReport = Report::query()->first();
 
@@ -80,6 +89,5 @@ class HttpTest extends TestCase
          $user->assignRole(RoleConst::ROLE_ADMIN);
          $response = $this->actingAs($user)->get('/reports/'. $firstReport->id . '/edit');
          $response->assertStatus(200);
-
      }
 }

@@ -68,6 +68,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
         ]);
+        // @todo никаких админов по умолчанию
         if ($data['role'] === "user") {
             $user->assignRole(RoleConst::ROLE_USER);
         } else {

@@ -46,15 +46,12 @@ _Schedulers_ запускаются командой `php artisan [schedule-task
 
 ### Юнит-тесты
 
--   до и после команды `npm run php-unit`, выполнять команду `php artisan migrate:fresh --seed`. (Возможно временное решение)
 -   `npm run php-unit`
 
 ### JS-линтер
 
--   Ставим глобально линтер `npm install -g jshint`
 -   Запускаем `npm run js-lint`
 
 ### PHP-линтер
 
--   Ставим глобальный пакет `pear install pear/PHP_CodeSniffer`
 -   Запускаем проверку `npm run php-lint`

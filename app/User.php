@@ -49,4 +49,14 @@ class User extends Authenticatable
     {
         return config('app.slack_notification_hook_url');
     }
+
+    /**
+     * Get the user's role name.
+     *
+     * @return string
+     */
+    public function getRoleNameAttribute()
+    {
+        return $this->getRoleNames()->first() ?? '';
+    }
 }

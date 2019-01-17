@@ -42,6 +42,7 @@ class CreateReportForUsers extends Command
      */
     public function handle()
     {
+        // @todo REFACTOR!
         $users = User::where('is_admin', "=", 0)
             ->get();
 
@@ -70,6 +71,7 @@ class CreateReportForUsers extends Command
             );
         });
 
+        // @todo пахнет
         $firstUser = User::query()
             ->firstOrFail();
 

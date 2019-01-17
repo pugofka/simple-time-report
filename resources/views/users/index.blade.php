@@ -31,7 +31,7 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->lastname}}</td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->role}}</td>
+                            <td>{{$user->role_name}}</td>
                             <td>
                                 <a href="/users/{{$user->id}}/edit" class="text-dark">Редактировать</a>
                             </td>
