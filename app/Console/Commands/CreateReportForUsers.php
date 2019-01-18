@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use App\Role as RoleConst;
 
 class CreateReportForUsers extends Command
 {
@@ -42,9 +43,9 @@ class CreateReportForUsers extends Command
      */
     public function handle()
     {
-        // @todo REFACTOR!
-        $users = User::where('is_admin', "=", 0)
-            ->get();
+        $users = User::whereHas('roles', function($q){
+            $q->where('name', RoleConst::ROLE_USER);
+        })->get();
 
         $users->each(function($user) {
             $now = Carbon::now();
