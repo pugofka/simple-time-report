@@ -16,6 +16,8 @@ use App\Report;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 /**
  * MyClass Class Doc Comment
@@ -37,11 +39,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        // @todo почему asc сортировка? у тебя в начале же дожлны быть последние созданные отчеты.
-        // Иначе через некоторое время у тебя производительность просядет и нужно будет листать до нужного отчета
         $reports = Report::query()
             ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get();
         return view('reports.index', compact('reports'));
     }
@@ -65,11 +65,9 @@ class ReportController extends Controller
         if ($request->user) {
             $userId = $request->user ?? 'all';
             if ($userId !== 'all') {
-                // @todo почему asc сортировка? у тебя в начале же дожлны быть последние созданные отчеты.
-                // Иначе через некоторое время у тебя производительность просядет и нужно будет листать до нужного отчета
                 $reports = Report::query()
                     ->where('user_id', $userId)
-                    ->orderBy('created_at', 'asc')
+                    ->orderBy('created_at', 'desc')
                     ->get();
             }
         }
@@ -79,8 +77,7 @@ class ReportController extends Controller
     /**
      * Editing report for user
      *
-     * @param int $id The comment
-     * @param Request $request The comment
+     * @param int $id Single report id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -94,37 +91,37 @@ class ReportController extends Controller
     /**
      * Updating report for user
      *
-     * @param Request $request The comment
-     * @param int $id The comment
+     * @param Request $request Request for update single report
+     * @param Report  $report  Model Report
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Report $report)
     {
-        $report = Report::findOrFail($id);
-        // @todo засунуть в валидацию  https://laravel.com/docs/5.7/validation#rule-gt
-        if ($request->week_hours > $request->fact_hours) {
-            return redirect(url('/my-reports/' . $id . '/edit'))
-                ->with(
-                    'status',
-                    'Рабочие часы не могут превышать фактического рабочего времени.'
-                );
-            // @todo засунуть в валидацию  https://laravel.com/docs/5.7/validation#rule-gt
-        } elseif ($request->effective_hours > $request->week_hours) {
-            return redirect(url('/my-reports/' . $id . '/edit'))
-                ->with(
-                    'status',
-                    'Эффективные рабочие часы не могут превышать рабочих часов.'
-                );
-        } else {
-            $report->plane_hours = $request->input('plane_hours');
-            $report->fact_hours = $request->input('fact_hours');
-            $report->week_hours = $request->input('week_hours');
-            $report->effective_hours = $request->input('effective_hours');
-            $report->save();
+        $this->validate(
+            $request, [
+                'plane_hours' => 'required|numeric',
+                'effective_hours' => 'required|numeric',
+                'fact_hours' => 'required|numeric|gte:week_hours',
+                'week_hours' => 'required|numeric|gte:effective_hours',
+            ],
+            [
+                '*.required' => "Заполните объязательные поля",
+                'fact_hours.gte'
+                    => 'Фактическое рабочее время должно превышать рабочие часы.',
+                'week_hours.gte'
+                    => 'Рабочие часы должны превышать эффективные часы.'
+            ]
+        );
 
-            return redirect(route('reports.index'))
-                ->with('status', 'Отчет успешно обновлен');
-        }
+        $report->plane_hours = $request->input('plane_hours');
+        $report->fact_hours = $request->input('fact_hours');
+        $report->week_hours = $request->input('week_hours');
+        $report->effective_hours = $request->input('effective_hours');
+        $report->save();
+
+        return redirect(route('reports.index'))
+            ->with('status', 'Отчет успешно обновлен');
     }
 }

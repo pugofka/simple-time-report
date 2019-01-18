@@ -35,25 +35,21 @@
     </div>
 </div>
 
-@php
-    $rolesList = ["user","admin"];
-@endphp
-
 
 
 @if ($formType == 'edit')
     <app-create-user
         current_role = "{{ $role }}"
-        :roles_list ="{{ json_encode($rolesList) }}"
-        action_type = 'edit'
-        plane_hours = "{{ $user->plane_hours }}"
-        week_hours = "{{ $user->week_hours }}"
-        user = {{ Auth::user()->id }}
-        user_id = {{$user->id}}
+        :roles_list  = "{{ json_encode($roles) }}"
+        action_type  = 'edit'
+        plane_hours  = "{{ $user->plane_hours }}"
+        week_hours   = "{{ $user->week_hours }}"
+        auth_user    = "{{ Auth::id() }}"
+        user_id      = "{{ $user->id }}"
     ></app-create-user>
 @else
     <app-create-user
-        :roles_list ="{{ json_encode($rolesList) }}"
+        :roles_list ="{{ json_encode($roles) }}"
         action_type = 'create'
     ></app-create-user>
 @endif

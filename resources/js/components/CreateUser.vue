@@ -9,17 +9,18 @@
           class="form-control"
           v-if="action_type === 'edit'"
           v-model="selectRole"
-          :disabled="user === user_id"
+          :disabled="auth_user === user_id"
         >
           <option
-            :value="role"
+            :value="role.name"
             v-for="(role, index) in roleList"
             :key="index"
-            :selected="role === currentRole"
-          >{{role}}</option>
+            :selected="role.name === currentRole"
+          >{{role.name}}</option>
         </select>
-        <select name="role" id="role" class="form-control" v-else v-model="selectRole">
-          <option :value="role" v-for="(role, index) in roleList" :key="index">{{role}}</option>
+        <input v-if="auth_user === user_id" type="hidden" v-model="selectRole" name="role">
+        <select name="role" v-if="action_type === 'create'" id="role" class="form-control" v-model="selectRole">
+          <option :value="role.name" v-for="(role, index) in roleList" :key="index">{{role.name}}</option>
         </select>
       </div>
     </div>
@@ -82,8 +83,8 @@ export default {
     "action_type",
     "plane_hours",
     "week_hours",
-    "user",
-    "user_id"
+    "auth_user",
+    "user_id",
   ],
   data() {
     return {

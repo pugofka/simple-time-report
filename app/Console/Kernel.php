@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // @todo зачем у тебя время репорта в конфиге? день ты фиксируешь, а время нет.  Сразу пропиши, из конфига выпилить
-        $schedule->command('report:create')->weeklyOn(5, config('app.create_report', '17:00'));
+        $schedule->command('report:create')->weeklyOn(5, '17:00');
     }
 
     /**
