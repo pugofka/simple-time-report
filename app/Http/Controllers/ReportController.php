@@ -58,12 +58,12 @@ class ReportController extends Controller
      */
     public function all(Request $request)
     {
-        $users = User::query()
-            ->get();
-
-        $onlyUsers = User::whereHas('roles', function($q){
-            $q->where('name', RoleConst::ROLE_USER);
-        })->get();
+        $onlyUsers = User::whereHas(
+            'roles',
+            function ($q) {
+                $q->where('name', RoleConst::ROLE_USER);
+            }
+        )->get();
 
         $reports = Report::query()
             ->orderBy('created_at', 'desc')
@@ -79,8 +79,7 @@ class ReportController extends Controller
             }
         }
 
-
-        return view('reports.all', compact('users', 'reports', 'onlyUsers'));
+        return view('reports.all', compact('reports', 'onlyUsers'));
     }
 
     /**
