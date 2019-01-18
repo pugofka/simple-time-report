@@ -13,10 +13,8 @@
                 <div class="col-md-4 p-0">
                     <select name="user" id="role" class="form-control" required>
                         <option value="all" @if(request()->user == 'all') selected @endif>Все</option>
-                        @foreach ($users as $user)
-                            @if ($user->is_admin!==1)
-                                <option value="{{$user->id}}" @if(request()->user == $user->id) selected @endif>{{$user->name}} {{$user->lastname}}</option>
-                            @endif
+                        @foreach ($onlyUsers as $user)
+                            <option value="{{$user->id}}" @if(request()->user == $user->id) selected @endif>{{$user->name}} {{$user->lastname}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -50,12 +48,16 @@
                                 <td>{{$report->report_start_date}}</td>
                                 <td>{{$report->report_end_date}}</td>
                                 <td>{{$report->plane_hours}}</td>
-                                @if($report->fact_hours < $report->plane_hours)
-                                    <td class="text-danger">{{$report->fact_hours}}</td>
-                                @else
-                                    <td>{{$report->fact_hours}}</td>
-                                @endif
-                                <td>{{$report->week_hours}}</td>
+                                <td>{{$report->fact_hours}}</td>
+                                @foreach ($onlyUsers as $user)
+                                    @if($report->user_id === $user->id)
+                                        @if($report->week_hours < $user->week_hours)
+                                            <td class="text-danger">{{$report->week_hours}}</td>
+                                        @else
+                                            <td class="text-danger">{{$report->week_hours}}</td>
+                                        @endif
+                                    @endif
+                                @endforeach
                                 <td>{{$report->effective_hours}}</td>
                             </tr>
                         @endforeach
