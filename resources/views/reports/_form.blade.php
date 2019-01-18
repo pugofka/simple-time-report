@@ -5,7 +5,7 @@
     <div class="col-md-9">
         {{ Form::number('plane_hours', null, ['class'=>'form-control', 'step'=>'any', 'readonly'=>'readonly']) }}
         @if ($errors->has('plane_hours'))
-            <span class="help-block">{{  $errors->first('plane_hours') }}</span>
+            <span class="status status--error">{{  $errors->first('plane_hours') }}</span>
         @endif
     </div>
 </div>
@@ -16,7 +16,7 @@
     <div class="col-md-9">
         {{ Form::number('fact_hours', null, ['class'=>'form-control', 'step'=>'any', 'required']) }}
         @if ($errors->has('fact_hours'))
-            <span class="help-block">{{  $errors->first('fact_hours') }}</span>
+            <span class="status status--error">{{  $errors->first('fact_hours') }}</span>
         @endif
     </div>
 </div>
@@ -26,7 +26,7 @@
     <div class="col-md-9">
         {{ Form::number('week_hours', null, ['class'=>'form-control', 'step'=>'any', 'required']) }}
         @if ($errors->has('week_hours'))
-            <span class="help-block">{{  $errors->first('week_hours') }}</span>
+            <span class="status status--error">{{  $errors->first('week_hours') }}</span>
         @endif
     </div>
 </div>
@@ -36,7 +36,7 @@
     <div class="col-md-9">
         {{ Form::number('effective_hours', null, ['class'=>'form-control', 'step'=>'any', 'required']) }}
         @if ($errors->has('effective_hours'))
-            <span class="help-block">{{  $errors->first('effective_hours') }}</span>
+            <span class="status status--error">{{  $errors->first('effective_hours') }}</span>
         @endif
     </div>
 </div>

@@ -12,14 +12,15 @@
           :disabled="user === user_id"
         >
           <option
-            :value="role"
+            :value="role.name"
             v-for="(role, index) in roleList"
             :key="index"
-            :selected="role === currentRole"
-          >{{role}}</option>
+            :selected="role.name === currentRole"
+          >{{role.name}}</option>
         </select>
-        <select name="role" id="role" class="form-control" v-else v-model="selectRole">
-          <option :value="role" v-for="(role, index) in roleList" :key="index">{{role}}</option>
+        <input v-if="user === user_id" type="hidden" v-model="selectRole" name="role">
+        <select name="role" v-if="action_type === 'create'" id="role" class="form-control" v-model="selectRole">
+          <option :value="role.name" v-for="(role, index) in roleList" :key="index">{{role.name}}</option>
         </select>
       </div>
     </div>
