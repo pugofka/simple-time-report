@@ -13,11 +13,14 @@
 namespace App\Http\Controllers;
 
 use App\Report;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Role;
+use App\User;
+use App\Role as RoleConst;
+
 
 /**
  * MyClass Class Doc Comment
@@ -58,6 +61,10 @@ class ReportController extends Controller
         $users = User::query()
             ->get();
 
+        $onlyUsers = User::whereHas('roles', function($q){
+            $q->where('name', RoleConst::ROLE_USER);
+        })->get();
+
         $reports = Report::query()
             ->orderBy('created_at', 'desc')
             ->get();
@@ -71,7 +78,9 @@ class ReportController extends Controller
                     ->get();
             }
         }
-        return view('reports.all', compact('users', 'reports'));
+
+
+        return view('reports.all', compact('users', 'reports', 'onlyUsers'));
     }
 
     /**
