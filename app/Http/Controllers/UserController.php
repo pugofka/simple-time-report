@@ -10,10 +10,12 @@
  * @link     http://www.hashbangcode.com/
  */
 namespace App\Http\Controllers;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Role as RoleConst;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -36,6 +38,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::get();
+
         return view('users.index', compact('users'));
     }
 
@@ -46,13 +49,17 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::query()
+            ->select('id', 'name')
+            ->get();
+
+        return view('users.create', compact('roles'));
     }
 
     /**
      * Store of users by the administrator
      *
-     * @param Request $request The comment
+     * @param Request $request Request for create single user
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -60,22 +67,20 @@ class UserController extends Controller
     {
         $user = User::create(
             [
-                'name' => $request['name'],
-                'lastname' => $request['lastname'],
-                'plane_hours' => $request['plane_hours'],
-                'week_hours' => $request['week_hours'],
-                'email' => $request['email'],
+                'name' => $request->input('name'),
+                'lastname' => $request->input('lastname'),
+                'plane_hours' => $request->input('plane_hours'),
+                'week_hours' => $request->input('week_hours'),
+                'email' => $request->input('email'),
                 'password' => Hash::make($request['password']),
             ]
         );
 
         if ($request['role'] === RoleConst::ROLE_ADMIN) {
             $user->assignRole(RoleConst::ROLE_ADMIN);
-            $user->is_admin = 1;
         } else {
             $user->assignRole(RoleConst::ROLE_USER);
         }
-
 
         $user->save();
 
@@ -93,39 +98,40 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $role = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
-        return view('users.edit', compact('user', 'role'));
+        $role = $user->roles->first()->name ?? RoleConst::ROLE_USER;
+        $roles = Role::query()
+            ->select('id', 'name')
+            ->get();
+
+        return view('users.edit', compact('user', 'role', 'roles'));
     }
 
     /**
      * Updating of users by the administrator
      *
-     * @param int     $id      THE COMMENT
-     * @param Request $request The comment
+     * @param int     $id      The user id
+     * @param Request $request Request for update single user
      *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id, Request $request)
     {
         $user = User::findOrFail($id);
-        $oldRole = preg_replace('/[^a-z_]/i', '', $user->getRoleNames());
+        $oldRole = $user->roles->first()->name;
         $user->name = $request->input('name');
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
         $user->plane_hours = $request->input('plane_hours');
         $user->week_hours = $request->input('week_hours');
-        $user->removeRole($oldRole);
-        $user->assignRole($request->input('role'));
 
-        if ($request->input('role') === 'admin') {
-            $user->is_admin = 1;
-        } else {
-            $user->is_admin = 0;
+        if ($oldRole !== $request->input('role')) {
+            $user->removeRole($oldRole);
+            $user->assignRole($request->input('role'));
         }
-
         if ($request->password !== null) {
             $user->password = Hash::make($request->input('password'));
         }
+
         $user->save();
 
         return redirect(route('users.index'))

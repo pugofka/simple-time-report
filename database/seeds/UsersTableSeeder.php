@@ -28,7 +28,6 @@ class UsersTableSeeder extends Seeder
             'lastname' => 'testLastName',
             'email' => 'info@pugofka.com',
             'plane_hours' => 0,
-            'is_admin' => 1,
             'week_hours' => 0,
             'password' => \Illuminate\Support\Facades\Hash::make('admin'),
         ]);
