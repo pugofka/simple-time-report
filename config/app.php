@@ -28,28 +28,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Time creating new report
-    |--------------------------------------------------------------------------
-    |
-    | This value contains the time the report was created.
-    |
-    */
-
-    'time_create_report' => env('TIME_CREATE_NEW_REPORT', '17:00'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Day creating new report
-    |--------------------------------------------------------------------------
-    |
-    | This value contains the day the report was created.
-    |
-    */
-
-    'day_create_report' => env('DAY_CREATE_NEW_REPORT', 5),
-
-    /*
-    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
