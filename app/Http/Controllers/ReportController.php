@@ -107,6 +107,7 @@ class ReportController extends Controller
                 'week_hours' => 'required|numeric|gte:effective_hours',
             ],
             [
+                '*.required' => "Заполните объязательные поля",
                 'fact_hours.gte'
                     => 'Фактическое рабочее время должно превышать рабочие часы.',
                 'week_hours.gte'
