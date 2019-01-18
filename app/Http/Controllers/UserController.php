@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Role as RoleConst;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -48,7 +49,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::query()
+            ->select('id', 'name')
+            ->get();
+
         return view('users.create', compact('roles'));
     }
 
@@ -94,8 +98,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $role = $user->roles->first()->name;
-        $roles = Role::all();
+        $role = $user->roles->first()->name ?? RoleConst::ROLE_USER;
+        $roles = Role::query()
+            ->select('id', 'name')
+            ->get();
 
         return view('users.edit', compact('user', 'role', 'roles'));
     }
@@ -117,12 +123,15 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->plane_hours = $request->input('plane_hours');
         $user->week_hours = $request->input('week_hours');
-        $user->removeRole($oldRole);
-        $user->assignRole($request->input('role'));
 
+        if ($oldRole !== $request->input('role')) {
+            $user->removeRole($oldRole);
+            $user->assignRole($request->input('role'));
+        }
         if ($request->password !== null) {
             $user->password = Hash::make($request->input('password'));
         }
+
         $user->save();
 
         return redirect(route('users.index'))

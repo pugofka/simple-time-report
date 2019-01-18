@@ -92,12 +92,12 @@ class ReportController extends Controller
      * Updating report for user
      *
      * @param Request $request Request for update single report
-     * @param int     $id      Single report id
+     * @param Report  $report  Model Report
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Report $report)
     {
         $this->validate(
             $request, [
@@ -115,7 +115,6 @@ class ReportController extends Controller
             ]
         );
 
-        $report = Report::findOrFail($id);
         $report->plane_hours = $request->input('plane_hours');
         $report->fact_hours = $request->input('fact_hours');
         $report->week_hours = $request->input('week_hours');

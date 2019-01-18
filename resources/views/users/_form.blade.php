@@ -44,7 +44,7 @@
         action_type  = 'edit'
         plane_hours  = "{{ $user->plane_hours }}"
         week_hours   = "{{ $user->week_hours }}"
-        user         = "{{ Auth::user()->id }}"
+        auth_user    = "{{ Auth::id() }}"
         user_id      = "{{ $user->id }}"
     ></app-create-user>
 @else
