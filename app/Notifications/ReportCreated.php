@@ -42,7 +42,10 @@ class ReportCreated extends Notification
      */
     public function toSlack($notifiable)
     {
+        $message = 'Заполните свой недельный отчет! :nyancat: \n'
+            . env('PROJECT_URL', '');
+
         return (new SlackMessage())
-            ->content('Заполните свой недельный отчет! :nyancat: \n https://time-report.pugofka.com');
+            ->content($message);
     }
 }
