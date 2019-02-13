@@ -20,7 +20,7 @@ use Illuminate\Validation\Rule;
 use App\Role;
 use App\User;
 use App\Role as RoleConst;
-
+use Carbon\Carbon;
 
 /**
  * MyClass Class Doc Comment
@@ -46,6 +46,7 @@ class ReportController extends Controller
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
+
         return view('reports.index', compact('reports'));
     }
 
@@ -58,6 +59,9 @@ class ReportController extends Controller
      */
     public function all(Request $request)
     {
+
+
+
         $onlyUsers = User::whereHas(
             'roles',
             function ($q) {

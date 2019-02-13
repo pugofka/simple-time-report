@@ -17,7 +17,7 @@ class CreateReportForUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'report:create';
+    protected $signature = 'report:week';
 
     /**
      * The console command description.
@@ -47,32 +47,55 @@ class CreateReportForUsers extends Command
             $q->where('name', RoleConst::ROLE_USER);
         })->get();
 
-        $users->each(function($user) {
-            $now = Carbon::now();
-            $reportStartDate = clone $now;
-            $reportStartDate = $reportStartDate->subDays($reportStartDate->dayOfWeekIso-1)->startOfDay();
-            $reportEndDate = clone $reportStartDate;
-            $reportEndDate = $reportEndDate->addDays(6)->endOfDay();
-            $reportStartDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportStartDate)
-                ->format('d-m-Y');
-            $reportEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $reportEndDate)
-                ->format('d-m-Y');
+        $now = Carbon::now();
+        $lastMonthDayOfWeek = clone $now;
+        $lastMonthDayOfWeek = $lastMonthDayOfWeek->subMonth(1)->endOfMonth();
 
-            DB::table('reports')->insert(
-                [
-                    'user_id' => $user->id,
-                    'author' => $user->name . ' ' . $user->lastname,
-                    'plane_hours' => $user->plane_hours,
-                    'fact_hours' => 0,
-                    'week_hours' => 0,
-                    'effective_hours' => 0,
-                    'report_start_date' => $reportStartDate,
-                    'report_end_date' => $reportEndDate
-                ]
-            );
-        });
+        if ($lastMonthDayOfWeek->dayOfWeek < 5) {
+            $weekDays = 7;
+            $missingDays = $weekDays - $lastMonthDayOfWeek->dayOfWeek;
+            $reportStartWeek = clone $now;
+            $reportStartWeek = Carbon::createFromFormat('Y-m-d H:i:s', $reportStartWeek->subMonth(1)->endOfMonth()->addDays(1));
+            $reportEndWeek = clone $now;
+            $reportEndWeek = Carbon::createFromFormat('Y-m-d H:i:s', $reportEndWeek->subMonth(1)->endOfMonth()->addDays($missingDays));
 
-        // @todo пахнет
+            $users->each(function($user) use ($reportEndWeek, $reportStartWeek) {
+
+                DB::table('reports')->insert(
+                    [
+                        'user_id' => $user->id,
+                        'author' => $user->name . ' ' . $user->lastname,
+                        'plane_hours' => $user->plane_hours,
+                        'fact_hours' => 0,
+                        'week_hours' => 0,
+                        'effective_hours' => 0,
+                        'report_start_date' => $reportStartWeek,
+                        'report_end_date' => $reportEndWeek
+                    ]
+                );
+            });
+        } else {
+            $users->each(function($user) {
+                $reportStartWeek = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now()->startOfWeek())
+                    ->format('d-m-Y');
+                $reportEndWeek = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now()->endOfWeek())
+                    ->format('d-m-Y');
+
+                DB::table('reports')->insert(
+                    [
+                        'user_id' => $user->id,
+                        'author' => $user->name . ' ' . $user->lastname,
+                        'plane_hours' => $user->plane_hours,
+                        'fact_hours' => 0,
+                        'week_hours' => 0,
+                        'effective_hours' => 0,
+                        'report_start_date' => $reportStartWeek,
+                        'report_end_date' => $reportEndWeek
+                    ]
+                );
+            });
+        }
+
         $firstUser = User::query()
             ->firstOrFail();
 
