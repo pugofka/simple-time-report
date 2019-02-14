@@ -17,10 +17,16 @@ class UserAccessTest extends TestCase
     /**
      * setUp test with seeding database
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         Artisan::call('db:seed');
+
+        $this->admin = factory(User::class)->create();
+        $this->user = factory(User::class)->create();
+
+        $this->admin->assignRole(RoleConst::ROLE_ADMIN);
+        $this->user->assignRole(RoleConst::ROLE_USER);
     }
 
     /**
@@ -30,64 +36,34 @@ class UserAccessTest extends TestCase
      */
     public function testCanUserViewUsers() {
         $firstUser = User::query()->first();
-        $user = factory(User::class)->create(['lastname' => 'testLastName']);
 
-        $user->assignRole(RoleConst::ROLE_ADMIN);
-        $response = $this->actingAs($user)->get('/users');
+        $response = $this->actingAs($this->admin)->get('/users');
         $response->assertStatus(200);
-
-        $user->assignRole(RoleConst::ROLE_ADMIN);
-        $response = $this->actingAs($user)->get('/users/create');
+        $response = $this->actingAs($this->admin)->get('/users/create');
         $response->assertStatus(200);
-
-        $user->assignRole(RoleConst::ROLE_ADMIN);
-        $response = $this->actingAs($user)->get('/users/'. $firstUser->id .'/edit');
-        $response->assertStatus(200);
-    }
-
-    public function testHome()
-    {
-        $user = factory(User::class)->create(['lastname' => 'testLastName']);
-        $user->removeRole(RoleConst::ROLE_ADMIN);
-        $response = $this->actingAs($user)->get('/');
+        $response = $this->actingAs($this->admin)->get('/users/'. $firstUser->id .'/edit');
         $response->assertStatus(200);
     }
 
      public function testCanUserCRUDMyReports()
      {
          factory(Report::class)->create();
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_USER);
-         $response = $this->actingAs($user)->get('/my-reports');
-         $response->assertStatus(200);
-
-         //Edit
          $firstReport = Report::query()->first();
 
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_USER);
-         $response = $this->actingAs($user)->get('/my-reports/'. $firstReport->id . '/edit');
+         $response = $this->actingAs($this->user)->get('/my-reports');
          $response->assertStatus(200);
-
+         $response = $this->actingAs($this->user)->get('/my-reports/'. $firstReport->id . '/edit');
+         $response->assertStatus(200);
      }
 
      public function testCanUserViewReports() {
          $firstReport = Report::query()->first();
 
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_ADMIN);
-         $response = $this->actingAs($user)->get('/reports?user='. $firstReport->id);
+         $response = $this->actingAs($this->admin)->get('/reports?user='. $firstReport->id);
          $response->assertStatus(200);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_ADMIN);
-         $response = $this->actingAs($user)->get('/reports?user=all');
+         $response = $this->actingAs($this->admin)->get('/reports?user=all');
          $response->assertStatus(200);
-
-         $user = factory(User::class)->create(['lastname' => 'testLastNmae']);
-         $user->assignRole(RoleConst::ROLE_ADMIN);
-         $response = $this->actingAs($user)->get('/reports/'. $firstReport->id . '/edit');
+         $response = $this->actingAs($this->admin)->get('/reports/'. $firstReport->id . '/edit');
          $response->assertStatus(200);
      }
 }
