@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', 'UserController');
         Route::get('reports', [ 'as' => 'reports.all', 'uses' => 'ReportController@all']);
+        Route::get('/reports/{report}/edit', 'ReportController@edit');
     });
 
     Route::middleware('role:user')->group(function () {

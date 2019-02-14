@@ -3,7 +3,14 @@
 @section('content')
     <div class="row mt-5">
         <div class="col-12">
-            <a href="{{route('reports.index')}}" class="btn btn-dark">Назад</a>
+            @if (auth()->check())
+                @if (auth()->user()->isAdmin())
+                    <a href="{{route('reports.all')}}" class="btn btn-dark">Назад</a>
+                @else
+                    <a href="{{route('reports.index')}}" class="btn btn-dark">Назад</a>
+                @endif
+            @endif
+
         </div>
         
         <div class="col-12 mt-5 mb-5">
