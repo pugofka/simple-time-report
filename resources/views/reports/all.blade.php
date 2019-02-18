@@ -59,6 +59,9 @@
                                     @endif
                                 @endforeach
                                 <td>{{$report->effective_hours}}</td>
+                                <td>
+                                    <a href="/reports/{{$report->id}}/edit">Редактировать</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

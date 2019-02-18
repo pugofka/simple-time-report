@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('report:create')->weeklyOn(5, '17:00');
+        $dayOfWeek = Carbon::now()->endOfMonth()->dayOfWeek;
+        $schedule->command('report:month')->monthlyOn($dayOfWeek, '17:00');
+        $schedule->command('report:week')->weeklyOn(5, '17:00');
     }
 
     /**
@@ -35,6 +38,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+
         require base_path('routes/console.php');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Role as RoleConst;
 
 class User extends Authenticatable
 {
@@ -58,5 +59,10 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return $this->getRoleNames()->first() ?? '';
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(RoleConst::ROLE_ADMIN);
     }
 }

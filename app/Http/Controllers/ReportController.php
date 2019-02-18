@@ -21,7 +21,6 @@ use App\Role;
 use App\User;
 use App\Role as RoleConst;
 
-
 /**
  * MyClass Class Doc Comment
  *
@@ -46,6 +45,7 @@ class ReportController extends Controller
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
+
         return view('reports.index', compact('reports'));
     }
 
@@ -129,7 +129,15 @@ class ReportController extends Controller
         $report->effective_hours = $request->input('effective_hours');
         $report->save();
 
-        return redirect(route('reports.index'))
-            ->with('status', 'Отчет успешно обновлен');
+        if (auth()->user()->isAdmin()) {
+            return redirect(route('reports.all'))
+                ->with('status', 'Отчет успешно обновлен');
+        } else {
+            return redirect(route('reports.index'))
+                ->with('status', 'Отчет успешно обновлен');
+        }
+
+
+
     }
 }
