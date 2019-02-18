@@ -12,16 +12,17 @@ before_script:
   - php artisan db:seed
   - phpenv rehash
   - nvm install 8.10.0
-  - npm install
+  - yarn --frozen-lockfile
 before_install:
   - mysql -e 'CREATE DATABASE homestead_test;'
 script:
-  - npm run lint
-  - npm run test
-  - npm run production
+  - yarn run lint
+  - yarn run test
+  - yarn run prod
 services:
   - mysql
 cache:
+  yarn: true
   directories:
     - node_modules
     - vendor
