@@ -64,6 +64,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $reports->links() }}
         </div>
     </div>
 @endsection

@@ -27,7 +27,7 @@ Homestead.json
 .rocketeer/
 
 # Tests
-tests/codeCoverage/
+/storage/codeCoverageReport
 
 # Cache
 bootstrap/cache/packages.php

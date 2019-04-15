@@ -45,7 +45,7 @@ class ReportController extends Controller
         $reports = Report::query()
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
         return view('reports.index', compact('reports'));
     }
 
@@ -66,16 +66,16 @@ class ReportController extends Controller
         )->get();
 
         $reports = Report::query()
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy('created_at', 'asc')
+            ->paginate(10);
 
         if ($request->user) {
             $userId = $request->user ?? 'all';
             if ($userId !== 'all') {
                 $reports = Report::query()
                     ->where('user_id', $userId)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->orderBy('created_at', 'asc')
+                    ->paginate(10);
             }
         }
 
