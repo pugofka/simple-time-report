@@ -24,10 +24,10 @@ use App\Role as RoleConst;
 
 
 /**
- * MyClass Class Doc Comment
+ * ReportController
  *
  * @category Class
- * @package  MyPackage
+ * @package  Simple_TimeReport
  * @author   Pugofka <info@pugofka.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.hashbangcode.com/
@@ -37,9 +37,12 @@ class ReportController extends Controller
     protected $dateFormat = 'U';
     protected $reportRepository;
 
-    public function __construct(
-        ReportRepositoryContract $reportRepository
-    )
+    /**
+     * ReportController constructor.
+     *
+     * @param ReportRepositoryContract $reportRepository Repository for Report
+     */
+    public function __construct(ReportRepositoryContract $reportRepository)
     {
         $this->reportRepository = $reportRepository;
     }
@@ -75,9 +78,12 @@ class ReportController extends Controller
         $userId = ($request->user) ? $request->user : 'all';
 
         $reports = Report::query()
-            ->when($userId != 'all', function($query) use ($userId, $request) {
-                return $query->where('user_id', $userId);
-            })
+            ->when(
+                $userId != 'all',
+                function ($query) use ($userId, $request) {
+                    return $query->where('user_id', $userId);
+                }
+            )
             ->orderBy('created_at', 'asc')
             ->paginate(10);
 
