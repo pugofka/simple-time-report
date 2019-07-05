@@ -1,5 +1,6 @@
 {{ Form::model($report, ['route' => ['reports.update', $report->id], 'method' => 'put']) }}
 
+
 <div class="form-group {{ $errors->has('plane_hours') ?  'has-error' : ''}}">
     {{ Form::label('plane_hours', 'Плановое рабочее время', ['class' => 'col-md-3 control-label']) }}
     <div class="col-md-9">

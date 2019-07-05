@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Report::class, function (Faker $faker) {
+$factory->define(App\Model\Report::class, function (Faker $faker) {
     $now = Carbon::now();
     $reportStartDate = clone $now;
     $reportStartDate = $reportStartDate

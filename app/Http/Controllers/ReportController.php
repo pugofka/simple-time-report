@@ -12,7 +12,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Report;
+use App\Contracts\ReportRepositoryContract;
+use App\Model\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -23,10 +24,10 @@ use App\Role as RoleConst;
 
 
 /**
- * MyClass Class Doc Comment
+ * ReportController
  *
  * @category Class
- * @package  MyPackage
+ * @package  Simple_TimeReport
  * @author   Pugofka <info@pugofka.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.hashbangcode.com/
@@ -34,6 +35,17 @@ use App\Role as RoleConst;
 class ReportController extends Controller
 {
     protected $dateFormat = 'U';
+    protected $reportRepository;
+
+    /**
+     * ReportController constructor.
+     *
+     * @param ReportRepositoryContract $reportRepository Repository for Report
+     */
+    public function __construct(ReportRepositoryContract $reportRepository)
+    {
+        $this->reportRepository = $reportRepository;
+    }
 
     /**
      * Page for reports list
@@ -42,10 +54,8 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::query()
-            ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $reports = $this->reportRepository->getMyReports(10, 'asc');
+
         return view('reports.index', compact('reports'));
     }
 
@@ -65,19 +75,17 @@ class ReportController extends Controller
             }
         )->get();
 
+        $userId = ($request->user) ? $request->user : 'all';
+
         $reports = Report::query()
+            ->when(
+                $userId != 'all',
+                function ($query) use ($userId, $request) {
+                    return $query->where('user_id', $userId);
+                }
+            )
             ->orderBy('created_at', 'asc')
             ->paginate(10);
-
-        if ($request->user) {
-            $userId = $request->user ?? 'all';
-            if ($userId !== 'all') {
-                $reports = Report::query()
-                    ->where('user_id', $userId)
-                    ->orderBy('created_at', 'asc')
-                    ->paginate(10);
-            }
-        }
 
         return view('reports.all', compact('reports', 'onlyUsers'));
     }

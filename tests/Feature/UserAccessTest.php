@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Report;
+use App\Model\Report;
 use App\Role as RoleConst;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
